@@ -1,0 +1,6 @@
+{
+  "name": "RealTime",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./RealTime.js"
+}
