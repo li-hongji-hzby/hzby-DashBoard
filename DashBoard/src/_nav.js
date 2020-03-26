@@ -1,12 +1,58 @@
 export default {
   items: [
     {
-      name: 'MainData',
-      url: '/MainData',
+      name: '数据概览',
+      url: '/MainDataV2',
       icon: 'icon-speedometer',
       badge: {
         variant: 'info',
         text: 'NEW',
+      },
+    },
+    {
+      name: '空压机',
+      url: '/Machines',
+      icon: 'icon-cursor',
+      badge: {
+        variant: 'info',
+        text: 'NEW',
+      },
+      children: [
+        {
+          name: '空压机一号',
+          url: '/Machines/MachineDetail',
+          icon: 'icon-cursor'
+        },
+        {
+          name: '空压机二号',
+          url: '/Machines/MachineDetail',
+          icon: 'icon-cursor'
+        },
+      ],
+    },
+    {
+      name: '机房数据',
+      url: '/MachineRoom',
+      icon: 'icon-speedometer',
+      badge: {
+        variant: 'info',
+        text: 'NEW',
+      },
+    },
+    {
+      name: 'TestPage',
+      url: '/TestPage',
+      icon: 'icon-speedometer',
+      badge: {
+        variant: 'info',
+      },
+    },
+    {
+      name: 'MainData',
+      url: '/MainData',
+      icon: 'icon-speedometer',
+      badge: {
+        variant: 'info'
       },
     },
     {
@@ -14,8 +60,7 @@ export default {
       url: '/RealTime',
       icon: 'icon-speedometer',
       badge: {
-        variant: 'info',
-        text: 'NEW',
+        variant: 'info'
       },
     },
     {
@@ -23,8 +68,7 @@ export default {
       url: '/QueryData',
       icon: 'icon-speedometer',
       badge: {
-        variant: 'info',
-        text: 'NEW',
+        variant: 'info'
       },
     },
     // {

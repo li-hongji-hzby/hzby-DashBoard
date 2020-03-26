@@ -22,7 +22,6 @@ const ButtonDropdowns = React.lazy(() => import('./views/Buttons/ButtonDropdowns
 const ButtonGroups = React.lazy(() => import('./views/Buttons/ButtonGroups'));
 const Buttons = React.lazy(() => import('./views/Buttons/Buttons'));
 const Charts = React.lazy(() => import('./views/Charts'));
-const MainData = React.lazy(() => import('./views/MainData/MainData'));
 const CoreUIIcons = React.lazy(() => import('./views/Icons/CoreUIIcons'));
 const Flags = React.lazy(() => import('./views/Icons/Flags'));
 const FontAwesome = React.lazy(() => import('./views/Icons/FontAwesome'));
@@ -35,15 +34,23 @@ const Typography = React.lazy(() => import('./views/Theme/Typography'));
 const Widgets = React.lazy(() => import('./views/Widgets/Widgets'));
 const Users = React.lazy(() => import('./views/Users/Users'));
 const User = React.lazy(() => import('./views/Users/User'));
+const MainData = React.lazy(() => import('./views/MainData/MainData'));
+const MainDataV2 = React.lazy(() => import('./views/MainDataV2/MainDataV2'));
 const RealTime = React.lazy(() => import('./views/RealTime/RealTime'));
 const QueryData = React.lazy(() => import('./views/QueryData/QueryData'));
-
+const TestPage = React.lazy(() => import('./views/TestPage/TestPage'));
+const MachineDetail = React.lazy(() => import('./views/MachineDetail/MachineDetail'));
+const MachineRoom = React.lazy(() => import('./views/MachineRoom/MachineRoom'));
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/MainData', name: 'MainData', component: MainData },
+  { path: '/MainDataV2', name: 'MainDataV2', component: MainDataV2 },
   { path: '/RealTime', name: 'RealTime', component: RealTime },
   { path: '/QueryData', name: 'QueryData', component: QueryData },
+  { path: '/Machines/MachineDetail', name: 'MachineDetail', component: MachineDetail },
+  { path: '/MachineRoom', name: 'MachineRoom', component: MachineRoom },
+  { path: '/TestPage', name: 'TestPage', component: TestPage },
   { path: '/theme', exact: true, name: 'Theme', component: Colors },
   { path: '/theme/colors', name: 'Colors', component: Colors },
   { path: '/theme/typography', name: 'Typography', component: Typography },

@@ -1,4 +1,4 @@
-import React, { Component, lazy, Suspense ,ListItem} from 'react';
+import React, { Component, lazy, Suspense } from 'react';
 import { Bar, Line } from 'react-chartjs-2';
 import {
   Badge,
@@ -20,10 +20,10 @@ import {
   Row,
   Table,
 } from 'reactstrap';
-import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 import { getStyle, hexToRgba } from '@coreui/coreui/dist/js/coreui-utilities';
 import axios from 'axios';
 import LineTypeWithData from '../../components/LineCard/TypeWithData/TypeWithData'
+import { CustomTooltips } from '../../utils/custom-tooltips';
 
 const Widget03 = lazy(() => import('../Widgets/Widget03'));
 
@@ -135,58 +135,150 @@ const makeSparkLineData = (dataSetNo, variant) => {
   return () => data;
 };
 
-const datas = [
-  {
-    data: [78, 81, 80, 45, 34, 12, 40],
-    label: '模拟数据2',
-    timeLabels:['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-    variant:'#ADC259',
-    title:'测试一下',
-    num:'1,234'
-  },{
-    data: [78, 81, 80, 45, 34, 12, 40],
-    label: '模拟数据3',
-    timeLabels:['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-    variant:'#CAC908',
-    title:'测试两下',
-    num:'10,234'
-  }
-]
+const sparklineChartOpts = {
+  tooltips: {
+    enabled: false,
+    custom: CustomTooltips
+  },
+  responsive: true,
+  maintainAspectRatio: true,
+  scales: {
+    xAxes: [
+      {
+        display: false,
+      }],
+    yAxes: [
+      {
+        display: false,
+      }],
+  },
+  elements: {
+    line: {
+      borderWidth: 2,
+    },
+    point: {
+      radius: 0,
+      hitRadius: 10,
+      hoverRadius: 4,
+      hoverBorderWidth: 3,
+    },
+  },
+  legend: {
+    display: false,
+  },
+};
+
+// Main Chart
+
+//Random Numbers
+function random(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+var elements = 27;
+var data1 = [];
+var data2 = [];
+var data3 = [];
+
+for (var i = 0; i <= elements; i++) {
+  data1.push(random(50, 200));
+  data2.push(random(80, 100));
+  data3.push(65);
+}
 
 
 
-class RealTime extends Component {
+class MainData extends Component {
   constructor(props) {
     super(props);
+
     this.toggle = this.toggle.bind(this);
     this.onRadioBtnClick = this.onRadioBtnClick.bind(this);
     this.state = {
+      lineDatas:[
+        {
+          data: [78, 81, 80, 45, 34, 12, 40],
+          label: '模拟数据1',
+          timeLabels:['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+          variant:'#ADC259',
+          title:'测试一下',
+          num:'1,234'
+        },{
+          data: [78, 81, 80, 45, 34, 12, 40],
+          label: '模拟数据2',
+          timeLabels:['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+          variant:'#CAC908',
+          title:'测试两下',
+          num:'10,234'
+        },{
+          data: [78, 81, 80, 45, 34, 12, 40],
+          label: '模拟数据3',
+          timeLabels:['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+          variant:'#FEF789',
+          title:'测试三下',
+          num:'30,234'
+        },{
+          data: [78, 81, 80, 45, 34, 12, 40],
+          label: '模拟数据4',
+          timeLabels:['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+          variant:'#0036fa',
+          title:'测试四下',
+          num:'50,234'
+        }
+      ],
       dropdownOpen: false,
       radioSelected: 1,
-      iconList:['facebook', 'twitter', 'linkedin', 'google-plus'],
-      sDataList:[],
-      cDataList:[],
-      sparklineChartOpts:{
+      mainChart:{
+        labels: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
+        datasets: [
+          {
+            label: 'coyote_creek',
+            backgroundColor: hexToRgba(brandInfo, 10),
+            borderColor: brandInfo,
+            pointHoverBackgroundColor: '#fff',
+            borderWidth: 2,
+            data: [12,23,12,54,45,47,96,12,23,12,54,45,47,96,12,23,12,54,45,47,96,12,23,12,54,45,47,96],
+          },
+        ],
+      },
+      mainChartOpts:{
         tooltips: {
           enabled: false,
-          custom: CustomTooltips
+          custom: CustomTooltips,
+          intersect: true,
+          mode: 'index',
+          position: 'nearest',
+          callbacks: {
+            labelColor: function(tooltipItem, chart) {
+              return { backgroundColor: chart.data.datasets[tooltipItem.datasetIndex].borderColor }
+            }
+          }
         },
-        responsive: true,
-        maintainAspectRatio: true,
+        maintainAspectRatio: false,
+        legend: {
+          display: false,
+        },
         scales: {
           xAxes: [
             {
-              display: false,
+              display:false,
+              gridLines: {
+                drawOnChartArea: false,
+              },
             }],
           yAxes: [
             {
-              display: false,
+              ticks: {
+                beginAtZero: true,
+                maxTicksLimit: 5,
+                stepSize: Math.ceil(250 / 5),
+                max:150,
+                min:-1
+                // max: Math.min.apply(Math, this.state.mainChart.datasets[0].data),
+              },
             }],
         },
         elements: {
-          line: {
-            borderWidth: 2,
-          },
           point: {
             radius: 0,
             hitRadius: 10,
@@ -194,53 +286,50 @@ class RealTime extends Component {
             hoverBorderWidth: 3,
           },
         },
-        legend: {
-          display: false,
-        },
+      },
+      tableDatas:{
+        labels:['时间','数据1','数据2','数据3'],
+        datas:[
+          ['一月','222','321','123'],
+          ['二月','222','321','123'],
+          ['三月','222','321','123'],
+          ['四月','222','321','123'],
+          ['五月','222','321','123'],
+          ['六月','222','321','123'],
+          ['七月','222','321','123'],
+          ['八月','222','321','123'],
+        ]
       }
     };
   }
-
   
-  getRealTimeCData = () => {
+  getLatestDataMain = (limit) => {
     let _that = this 
-    axios.get(base+'/getRealTimeData', {
-      params: {
-        location:'coyote_creek'
-      }
+    let newData = _that.state.tableDatas
+    newData.datas=[
+      ['一号','asd','321','123'],
+      ['二号','asd','321','123'],
+      ['三号','asd','321','123'],
+      ['四号','asd','321','123'],
+      ['五号','asd','321','123'],
+      ['六号','asd','321','123'],
+      ['七号','asd','321','123'],
+      ['八号','asd','321','123'],
+    ]
+    let newData2 = this.state.mainChart
+    newData2.datasets[0].data = [96,12,54,45,47,96,12,96,12,54,45,47,96,12,96,12,54,45,47,96,12,96,12,54,45,47,96,12,]
+    _that.setState({
+      mainChart:newData
     })
-    .then(function (response) {
-      console.log(response.data)
-      _that.setState({
-        cDataList:response.data
-      })
+    _that.setState({
+      tableDatas:newData,
+      mainChart:newData2
     })
-    .catch(function (error) {
-      console.log(error);
-    });
   }
 
-  getRealTimeSData = () => {
-    let _that = this 
-    axios.get(base+'/getRealTimeData', {
-      params: {
-        location:'santa_monica'
-      }
-    })
-    .then(function (response) {
-      console.log(response.data)
-      _that.setState({
-        sDataList:response.data
-      })
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-  }
 
   componentDidMount(){
-    this.getRealTimeCData();
-    this.getRealTimeSData();
+    // this.getLatestDataMain(20);
     // console.log(data)
   }
   toggle() {
@@ -255,37 +344,145 @@ class RealTime extends Component {
     });
   }
 
-  
   loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
+  
+  
+
+
 
   render() {
     return (
-      <div className="animated fadeIn">
-        <Row className="justify-content-around">
-          {this.state.cDataList.map((dataMsg,index) =>
-            <Col xs="6" sm="6" lg="2" key={index}>
-              <Suspense fallback={this.loading()}>
-                <Widget03 dataBox={() => ({ variant: this.state.iconList[parseInt(Math.random()*2,10)+1]})} dataKind={dataMsg[0]} dataValue={dataMsg[1]}>
-                  <div className="chart-wrapper">
-                    <Line data={makeSocialBoxData(0)} options={socialChartOpts} height={90} />
-                  </div>
-                </Widget03>
-              </Suspense>
-            </Col>
-          )}
+      <Col className="animated fadeIn">
+        <Row>
+          <Col xs="12" sm="12" lg="12">
+            <Card>
+              <CardHeader>
+                Traffic {' & '} Sales
+              </CardHeader>
+              <CardBody>
+                <Row>
+                  {this.state.lineDatas.map((data,index) => 
+                    <Col xs="12" sm="6" lg="3" key={index}>
+                      <LineTypeWithData dataset={data}></LineTypeWithData>
+                    </Col>
+                  )}
+                </Row>
+                </CardBody>
+            </Card>
+          </Col>
         </Row>
-        <Row className="justify-content-around">
-          {this.state.sDataList.map((dataMsg,index) =>
-            <Col xs="6" sm="6" lg="2" key={index}>
-              <Suspense fallback={this.loading()}>
-                <Widget03 dataBox={() => ({ variant: this.state.iconList[parseInt(Math.random()*2,10)+1] })} dataKind={dataMsg[0]} dataValue={dataMsg[1]} >
-                  <div className="chart-wrapper">
-                    <Line data={makeSocialBoxData(0)} options={socialChartOpts} height={90} />
-                  </div>
-                </Widget03>
-              </Suspense>
-            </Col>
-          )}
+        <Row>
+          <Col xs="12" sm="12" lg="8">
+            <Card>
+              <CardHeader>
+                <Row>
+                    <Col sm="5">
+                      <CardTitle className="mb-0">
+                        <Col xs="12" sm="2" lg="12">
+                          <Badge className="mr-1" color="primary" pill style={{"fontSize":"100%","lineHeight":'1.8'}}>
+                            标题......
+                          </Badge>
+                        </Col>
+                      </CardTitle>
+                      <div className="small text-muted"></div>
+                    </Col>
+                    <Col sm="7" className="d-none d-sm-inline-block">
+                      <Button color="primary" className="float-right"><i className="icon-cloud-download"></i></Button>
+                      <ButtonToolbar className="float-right" aria-label="Toolbar with button groups">
+                        <ButtonGroup className="mr-3" aria-label="First group">
+                          <Button color="outline-secondary" onClick={() => {this.onRadioBtnClick(1);this.getLatestDataMain(20);}} active={this.state.radioSelected === 1}>最近一个月</Button>
+                          <Button color="outline-secondary" onClick={() => {this.onRadioBtnClick(2);this.getLatestDataMain(50);}} active={this.state.radioSelected === 2}>最近一日</Button>
+                          <Button color="outline-secondary" onClick={() => {this.onRadioBtnClick(3);this.getLatestDataMain(100);}} active={this.state.radioSelected === 3}>最近一小时</Button>
+                        </ButtonGroup>
+                      </ButtonToolbar>
+                    </Col>
+                  </Row>
+              </CardHeader>
+              <CardBody>
+                <div className="chart-wrapper" style={{ height: 300 + 'px', marginTop: 40 + 'px' }}>
+                  <Line data={this.state.mainChart} options={this.state.mainChartOpts} height={300} />
+                </div>
+              </CardBody>
+              <CardFooter>
+              </CardFooter>
+            </Card>
+          </Col>
+          <Col xs="12" sm="12" lg="4">
+            <Card>
+              <CardHeader>
+                <ButtonToolbar className="justify-content-center" aria-label="Toolbar with button groups">
+                  <ButtonGroup aria-label="First group">
+                    <Button color="outline-secondary" onClick={() => {this.onRadioBtnClick(1);this.getLatestDataMain(20);}} active={this.state.radioSelected === 1}>月</Button>
+                    <Button color="outline-secondary" onClick={() => {this.onRadioBtnClick(2);this.getLatestDataMain(50);}} active={this.state.radioSelected === 2}>日</Button>
+                    <Button color="outline-secondary" onClick={() => {this.onRadioBtnClick(3);this.getLatestDataMain(100);}} active={this.state.radioSelected === 3}>时</Button>
+                  </ButtonGroup>
+                </ButtonToolbar>
+              </CardHeader>
+              <CardBody  style={{'height':'390px','overflowY': 'scroll'}}>
+                <Table lg='3' className="table table-striped">
+                  <thead>
+                    <tr>
+                      {this.state.tableDatas.labels.map((label,index) =>
+                        <th scope="col" key={index}>{label}</th>
+                      )}
+                    </tr>
+                  </thead>
+                  <tbody>
+                      {this.state.tableDatas.datas.map((data,index) => 
+                        <tr key={index}>
+                            { data.map((msg, index) => 
+                              <th scope={index===0?'row':''} key={index}>{msg}</th>  
+                            )}
+                        </tr>
+                      )}
+                  </tbody>
+                </Table>
+              </CardBody>
+              <CardFooter></CardFooter>
+            </Card>
+          </Col>
+        </Row>
+
+        {/* <Row>
+          <Col xs="6" sm="6" lg="3">
+            <Suspense fallback={this.loading()}>
+              <Widget03 dataBox={() => ({ variant: 'facebook', friends: '89k', feeds: '459' })} >
+                <div className="chart-wrapper">
+                  <Line data={makeSocialBoxData(0)} options={socialChartOpts} height={90} />
+                </div>
+              </Widget03>
+            </Suspense>
+          </Col>
+
+          <Col xs="6" sm="6" lg="3">
+            <Suspense fallback={this.loading()}>
+              <Widget03 dataBox={() => ({ variant: 'twitter', followers: '973k', tweets: '1.792' })} >
+                <div className="chart-wrapper">
+                  <Line data={makeSocialBoxData(1)} options={socialChartOpts} height={90} />
+                </div>
+              </Widget03>
+            </Suspense>
+          </Col>
+
+          <Col xs="6" sm="6" lg="3">
+            <Suspense fallback={this.loading()}>
+              <Widget03 dataBox={() => ({ variant: 'linkedin', contacts: '500+', feeds: '292' })} >
+                <div className="chart-wrapper">
+                  <Line data={makeSocialBoxData(2)} options={socialChartOpts} height={90} />
+                </div>
+              </Widget03>
+            </Suspense>
+          </Col>
+
+          <Col xs="6" sm="6" lg="3">
+            <Suspense fallback={this.loading()}>
+              <Widget03 dataBox={() => ({ variant: 'google-plus', followers: '894', circles: '92' })} >
+                <div className="chart-wrapper">
+                  <Line data={makeSocialBoxData(3)} options={socialChartOpts} height={90} />
+                </div>
+              </Widget03>
+            </Suspense>
+          </Col>
         </Row>
 
         <Row>
@@ -298,12 +495,26 @@ class RealTime extends Component {
                 <Row>
                   <Col xs="12" md="6" xl="6">
                     <Row>
-                      {datas.map((data,index) => 
-                        <Col sm="6" key={index}>
-                          {console.log(data)}
-                          <LineTypeWithData dataset={data} variant='#AFC507' title='测试一下' num='1,256'></LineTypeWithData>
-                        </Col>
-                      )}
+                      <Col sm="6">
+                        <div className="callout callout-info">
+                          <small className="text-muted">New Clients</small>
+                          <br />
+                          <strong className="h4">9,123</strong>
+                          <div className="chart-wrapper">
+                            <Line data={makeSparkLineData(0, brandPrimary)} options={sparklineChartOpts} width={100} height={30} />
+                          </div>
+                        </div>
+                      </Col>
+                      <Col sm="6">
+                        <div className="callout callout-danger">
+                          <small className="text-muted">Recurring Clients</small>
+                          <br />
+                          <strong className="h4">22,643</strong>
+                          <div className="chart-wrapper">
+                            <Line data={makeSparkLineData(1, brandDanger)} options={sparklineChartOpts} width={100} height={30} />
+                          </div>
+                        </div>
+                      </Col>
                     </Row>
                     <hr className="mt-0" />
                     <div className="progress-group mb-4">
@@ -313,7 +524,7 @@ class RealTime extends Component {
                         </span>
                       </div>
                       <div className="progress-group-bars">
-                        <Progress className="progress-xs" color="info" value="100" />
+                        <Progress className="progress-xs" color="info" value="34" />
                         <Progress className="progress-xs" color="danger" value="78" />
                       </div>
                     </div>
@@ -401,7 +612,7 @@ class RealTime extends Component {
                           <br />
                           <strong className="h4">78,623</strong>
                           <div className="chart-wrapper">
-                            <Line data={makeSparkLineData(2, brandWarning)} options={this.state.sparklineChartOpts} width={100} height={30} />
+                            <Line data={makeSparkLineData(2, brandWarning)} options={sparklineChartOpts} width={100} height={30} />
                           </div>
                         </div>
                       </Col>
@@ -411,7 +622,7 @@ class RealTime extends Component {
                           <br />
                           <strong className="h4">49,123</strong>
                           <div className="chart-wrapper">
-                            <Line data={makeSparkLineData(3, brandSuccess)} options={this.state.sparklineChartOpts} width={100} height={30} />
+                            <Line data={makeSparkLineData(3, brandSuccess)} options={sparklineChartOpts} width={100} height={30} />
                           </div>
                         </div>
                       </Col>
@@ -714,10 +925,10 @@ class RealTime extends Component {
               </CardBody>
             </Card>
           </Col>
-        </Row>
-      </div> 
+        </Row>*/}
+      </Col> 
     );
   }
 }
 
-export default RealTime;
+export default MainData;

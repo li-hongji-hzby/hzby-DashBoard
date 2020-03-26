@@ -1,4 +1,4 @@
-import React, { Component, lazy, Suspense ,ListItem} from 'react';
+import React, { Component, lazy, Suspense } from 'react';
 import { Bar, Line } from 'react-chartjs-2';
 import {
   Badge,
@@ -23,7 +23,6 @@ import {
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 import { getStyle, hexToRgba } from '@coreui/coreui/dist/js/coreui-utilities';
 import axios from 'axios';
-import LineTypeWithData from '../../components/LineCard/TypeWithData/TypeWithData'
 
 const Widget03 = lazy(() => import('../Widgets/Widget03'));
 
@@ -135,58 +134,234 @@ const makeSparkLineData = (dataSetNo, variant) => {
   return () => data;
 };
 
-const datas = [
-  {
-    data: [78, 81, 80, 45, 34, 12, 40],
-    label: '模拟数据2',
-    timeLabels:['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-    variant:'#ADC259',
-    title:'测试一下',
-    num:'1,234'
-  },{
-    data: [78, 81, 80, 45, 34, 12, 40],
-    label: '模拟数据3',
-    timeLabels:['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-    variant:'#CAC908',
-    title:'测试两下',
-    num:'10,234'
-  }
-]
+const sparklineChartOpts = {
+  tooltips: {
+    enabled: false,
+    custom: CustomTooltips
+  },
+  responsive: true,
+  maintainAspectRatio: true,
+  scales: {
+    xAxes: [
+      {
+        display: false,
+      }],
+    yAxes: [
+      {
+        display: false,
+      }],
+  },
+  elements: {
+    line: {
+      borderWidth: 2,
+    },
+    point: {
+      radius: 0,
+      hitRadius: 10,
+      hoverRadius: 4,
+      hoverBorderWidth: 3,
+    },
+  },
+  legend: {
+    display: false,
+  },
+};
+
+// Main Chart
+
+//Random Numbers
+function random(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+var elements = 27;
+var data1 = [];
+var data2 = [];
+var data3 = [];
+
+for (var i = 0; i <= elements; i++) {
+  data1.push(random(50, 200));
+  data2.push(random(80, 100));
+  data3.push(65);
+}
 
 
 
-class RealTime extends Component {
+class TestPage extends Component {
   constructor(props) {
     super(props);
+
     this.toggle = this.toggle.bind(this);
     this.onRadioBtnClick = this.onRadioBtnClick.bind(this);
     this.state = {
       dropdownOpen: false,
       radioSelected: 1,
-      iconList:['facebook', 'twitter', 'linkedin', 'google-plus'],
-      sDataList:[],
-      cDataList:[],
-      sparklineChartOpts:{
+      cardChartData1:{
+        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+        datasets: [
+          {
+            label: 'My First dataset',
+            backgroundColor: brandPrimary,
+            borderColor: 'rgba(255,255,255,.55)',
+            data: [65, 59, 84, 84, 51, 55, 40],
+          },
+        ],
+      },
+      cardChartOpts1:{
         tooltips: {
           enabled: false,
           custom: CustomTooltips
         },
-        responsive: true,
-        maintainAspectRatio: true,
+        maintainAspectRatio: false,
+        legend: {
+          display: false,
+        },
         scales: {
           xAxes: [
             {
-              display: false,
+              gridLines: {
+                color: 'transparent',
+                zeroLineColor: 'transparent',
+              },
+              ticks: {
+                fontSize: 2,
+                fontColor: 'transparent',
+              },
+      
             }],
           yAxes: [
             {
               display: false,
+              ticks: {
+                display: false,
+                min: Math.min.apply(Math, []) - 5,
+                max: Math.max.apply(Math, []) + 5,
+              },
             }],
         },
         elements: {
           line: {
-            borderWidth: 2,
+            borderWidth: 1,
           },
+          point: {
+            radius: 4,
+            hitRadius: 10,
+            hoverRadius: 4,
+          },
+        }
+      },
+      cardChartData2:{
+        labels: ["2019-09-18 05:42:00","2019-09-18 05:36:00","2019-09-18 05:30:00","2019-09-18 05:24:00","2019-09-18 05:18:00","2019-09-18 05:12:00","2019-09-18 05:06:00","2019-09-18 05:00:00","2019-09-18 04:54:00","2019-09-18 04:48:00","2019-09-18 04:42:00","2019-09-18 04:36:00","2019-09-18 04:30:00","2019-09-18 04:24:00","2019-09-18 04:18:00"],
+        datasets: [
+          {
+            label: 'My First dataset',
+            backgroundColor: brandInfo,
+            borderColor: 'rgba(255,255,255,.55)',
+            data: [67,65,60,68,65,63,69,64,70,64,63,70,69,70,61],
+          },
+        ],
+      },
+      cardChartOpts2:{
+        tooltips: {
+          enabled: false,
+          custom: CustomTooltips
+        },
+        maintainAspectRatio: false,
+        legend: {
+          display: false,
+        },
+        scales: {
+          xAxes: [
+            {
+              gridLines: {
+                color: 'transparent',
+                zeroLineColor: 'transparent',
+              },
+              ticks: {
+                fontSize: 2,
+                fontColor: 'transparent',
+              },
+      
+            }],
+          yAxes: [
+            {
+              display: false,
+              ticks: {
+                display: false,
+                min: Math.min.apply(Math, []) - 5,
+                max: Math.max.apply(Math, []) + 5,
+              },
+            }],
+        },
+        elements: {
+          line: {
+            tension: 0.00001,
+            borderWidth: 1,
+          },
+          point: {
+            radius: 4,
+            hitRadius: 10,
+            hoverRadius: 4,
+          },
+        },
+      },
+      mainChart:{
+        labels: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
+        datasets: [
+          {
+            label: 'coyote_creek',
+            backgroundColor: hexToRgba(brandInfo, 10),
+            borderColor: brandInfo,
+            pointHoverBackgroundColor: '#fff',
+            borderWidth: 2,
+            data: [],
+          },
+          {
+            label: 'santa_monica',
+            backgroundColor: 'transparent',
+            borderColor: brandSuccess,
+            pointHoverBackgroundColor: '#fff',
+            borderWidth: 2,
+            data: [],
+          }
+        ],
+      },
+      mainChartOpts:{
+        tooltips: {
+          enabled: false,
+          custom: CustomTooltips,
+          intersect: true,
+          mode: 'index',
+          position: 'nearest',
+          callbacks: {
+            labelColor: function(tooltipItem, chart) {
+              return { backgroundColor: chart.data.datasets[tooltipItem.datasetIndex].borderColor }
+            }
+          }
+        },
+        maintainAspectRatio: false,
+        legend: {
+          display: false,
+        },
+        scales: {
+          xAxes: [
+            {
+              display:false,
+              gridLines: {
+                drawOnChartArea: false,
+              },
+            }],
+          yAxes: [
+            {
+              ticks: {
+                beginAtZero: true,
+                maxTicksLimit: 5,
+                stepSize: Math.ceil(250 / 5),
+                max: 250,
+              },
+            }],
+        },
+        elements: {
           point: {
             radius: 0,
             hitRadius: 10,
@@ -194,44 +369,126 @@ class RealTime extends Component {
             hoverBorderWidth: 3,
           },
         },
-        legend: {
-          display: false,
-        },
       }
+      
     };
   }
-
   
-  getRealTimeCData = () => {
+  getLatestDataMain = (limit) => {
     let _that = this 
-    axios.get(base+'/getRealTimeData', {
+    axios.get(base+'/getLatestData', {
       params: {
-        location:'coyote_creek'
+        location:'coyote_creek',
+        dataKind:'average_temperature',
+        limit:limit
       }
     })
     .then(function (response) {
-      console.log(response.data)
+      // console.log(response);
+      // console.log(_that.state.cardChartData1)
+      let newData = _that.state.mainChart
+      let newData2 = _that.state.mainChartOpts
+      // console.log(response.data.time)
+      newData.labels= response.data.time
+      newData.datasets[0].data = response.data.data
+      // newData.datasets[0].label = dataKind
+      newData2.scales.yAxes[0].ticks.min = Math.min.apply(Math, newData.datasets[0].data) - 5
+      newData2.scales.yAxes[0].ticks.max = Math.max.apply(Math, newData.datasets[0].data) + 5
       _that.setState({
-        cDataList:response.data
+        mainChart:newData,
+        mainChartOpts:newData2
       })
+      // console.log(_that.state.cardChartData2)
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+    axios.get(base+'/getLatestData', {
+      params: {
+        location:'santa_monica',
+        dataKind:'average_temperature',
+        limit:limit
+      }
+    })
+    .then(function (response) {
+      // console.log(response);
+      // console.log(_that.state.cardChartData1)
+      let newData = _that.state.mainChart
+      let newData2 = _that.state.mainChartOpts
+      // console.log(response.data.time)
+      newData.labels= response.data.time
+      newData.datasets[1].data = response.data.data
+      // newData.datasets[0].label = dataKind
+      newData2.scales.yAxes[0].ticks.min = Math.min.apply(Math, newData.datasets[0].data) - 5
+      newData2.scales.yAxes[0].ticks.max = Math.max.apply(Math, newData.datasets[0].data) + 5
+      _that.setState({
+        mainChart:newData,
+        mainChartOpts:newData2
+      })
+      // console.log(_that.state.cardChartData2)
     })
     .catch(function (error) {
       console.log(error);
     });
   }
 
-  getRealTimeSData = () => {
+  
+  getLatestData1 = (location,dataKind) => {
     let _that = this 
-    axios.get(base+'/getRealTimeData', {
+    axios.get(base+'/getLatestData', {
       params: {
-        location:'santa_monica'
+        location:location,
+        dataKind:dataKind,
+        limit:15
       }
     })
     .then(function (response) {
-      console.log(response.data)
+      // console.log(response);
+      // console.log(_that.state.cardChartData1)
+      let newData = _that.state.cardChartData1
+      let newData2 = _that.state.cardChartOpts1
+      // console.log(response.data.time)
+      newData.labels= response.data.time
+      newData.datasets[0].data = response.data.data
+      newData.datasets[0].label = dataKind
+      newData2.scales.yAxes[0].ticks.min = Math.min.apply(Math, newData.datasets[0].data) - 5
+      newData2.scales.yAxes[0].ticks.max = Math.max.apply(Math, newData.datasets[0].data) + 5
       _that.setState({
-        sDataList:response.data
+        cardChartData1:newData,
+        cardChartOpts1:newData2
       })
+      // console.log(_that.state.cardChartData2)
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  }
+
+  getLatestData2 = (location,dataKind) => {
+    let _that = this 
+    axios.get(base+'/getLatestData', {
+      params: {
+        location:location,
+        dataKind:dataKind,
+        limit:15
+      }
+    })
+    .then(function (response) {
+      // console.log(response);
+      // console.log(_that.state.cardChartData2)
+      let newData = _that.state.cardChartData2
+      let newData2 = _that.state.cardChartOpts2
+      // console.log(response.data.time)
+      newData.labels= response.data.time
+      newData.datasets[0].data = response.data.data
+      newData.datasets[0].label = dataKind
+      newData2.scales.yAxes[0].ticks.min = Math.min.apply(Math, newData.datasets[0].data) - 5
+      newData2.scales.yAxes[0].ticks.max = Math.max.apply(Math, newData.datasets[0].data) + 5
+      _that.setState({
+        cardChartData2:newData,
+        cardChartOpts2:newData2
+      })
+      // console.log(_that.state.cardChartData2)
     })
     .catch(function (error) {
       console.log(error);
@@ -239,8 +496,9 @@ class RealTime extends Component {
   }
 
   componentDidMount(){
-    this.getRealTimeCData();
-    this.getRealTimeSData();
+    this.getLatestData1('coyote_creek', 'h2o_feet');
+    this.getLatestData2('santa_monica', 'h2o_feet');
+    this.getLatestDataMain(20);
     // console.log(data)
   }
   toggle() {
@@ -255,37 +513,137 @@ class RealTime extends Component {
     });
   }
 
-  
   loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
+  
+  
+
+
 
   render() {
     return (
       <div className="animated fadeIn">
-        <Row className="justify-content-around">
-          {this.state.cDataList.map((dataMsg,index) =>
-            <Col xs="6" sm="6" lg="2" key={index}>
-              <Suspense fallback={this.loading()}>
-                <Widget03 dataBox={() => ({ variant: this.state.iconList[parseInt(Math.random()*2,10)+1]})} dataKind={dataMsg[0]} dataValue={dataMsg[1]}>
-                  <div className="chart-wrapper">
-                    <Line data={makeSocialBoxData(0)} options={socialChartOpts} height={90} />
-                  </div>
-                </Widget03>
-              </Suspense>
-            </Col>
-          )}
+        <Row>
+          <Col xs="12" sm="12" lg="6">
+            <Card className="text-white bg-info">
+              <CardBody className="pb-0">
+                <ButtonGroup className="float-right">
+                  <ButtonDropdown id='card1' isOpen={this.state.card1} toggle={() => { this.setState({ card1: !this.state.card1 }); }}>
+                    <DropdownToggle caret className="p-0" color="transparent">
+                      <i className="icon-settings"></i>
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                      <DropdownItem onClick={() => this.getLatestData1('coyote_creek', 'h2o_feet')}>h2o_feet</DropdownItem>
+                      <DropdownItem onClick={() => this.getLatestData1('coyote_creek', 'h2o_quality')}>h2o_quality</DropdownItem>
+                      <DropdownItem onClick={() => this.getLatestData1('coyote_creek', 'h2o_pH')}>h2o_pH</DropdownItem>
+                      <DropdownItem onClick={() => this.getLatestData1('coyote_creek', 'h2o_temperature')}>h2o_temperature</DropdownItem>
+                    </DropdownMenu>
+                  </ButtonDropdown>
+                </ButtonGroup>
+                <div className="text-value">coyote_creek</div>
+                <div>{this.state.cardChartData1.datasets[0].label}</div>
+              </CardBody>
+              <div className="chart-wrapper mx-3" style={{ height: '100px' }}>
+                <Line data={this.state.cardChartData1} options={this.state.cardChartOpts1} height={100} />
+              </div>
+            </Card>
+          </Col>
+
+          <Col xs="12" sm="12" lg="6">
+            <Card className="text-white bg-primary">
+              <CardBody className="pb-0">
+                <ButtonGroup className="float-right">
+                  <Dropdown id='card2' isOpen={this.state.card2} toggle={() => { this.setState({ card2: !this.state.card2 }); }}>
+                    <DropdownToggle caret className="p-0" color="transparent">
+                      <i className="icon-settings"></i>
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                      <DropdownItem onClick={() => this.getLatestData2('santa_monica', 'h2o_feet')}>h2o_feet</DropdownItem>
+                      <DropdownItem onClick={() => this.getLatestData2('santa_monica', 'h2o_quality')}>h2o_quality</DropdownItem>
+                      <DropdownItem onClick={() => this.getLatestData2('santa_monica', 'h2o_pH')}>h2o_pH</DropdownItem>
+                      <DropdownItem onClick={() => this.getLatestData2('santa_monica', 'h2o_temperature')}>h2o_temperature</DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </ButtonGroup>
+                <div className="text-value">santa_monica</div>
+                <div>{this.state.cardChartData2.datasets[0].label}</div>
+              </CardBody>
+              <div className="chart-wrapper mx-3" style={{ height: '100px' }}>
+                <Line data={this.state.cardChartData2} options={this.state.cardChartOpts2} height={100} />
+              </div>
+            </Card>
+          </Col>
         </Row>
-        <Row className="justify-content-around">
-          {this.state.sDataList.map((dataMsg,index) =>
-            <Col xs="6" sm="6" lg="2" key={index}>
-              <Suspense fallback={this.loading()}>
-                <Widget03 dataBox={() => ({ variant: this.state.iconList[parseInt(Math.random()*2,10)+1] })} dataKind={dataMsg[0]} dataValue={dataMsg[1]} >
-                  <div className="chart-wrapper">
-                    <Line data={makeSocialBoxData(0)} options={socialChartOpts} height={90} />
-                  </div>
-                </Widget03>
-              </Suspense>
-            </Col>
-          )}
+        <Row>
+          <Col>
+            <Card>
+              <CardBody>
+                <Row>
+                  <Col sm="5">
+                    <CardTitle className="mb-0">average_temperature</CardTitle>
+                    <div className="small text-muted"></div>
+                  </Col>
+                  <Col sm="7" className="d-none d-sm-inline-block">
+                    <Button color="primary" className="float-right"><i className="icon-cloud-download"></i></Button>
+                    <ButtonToolbar className="float-right" aria-label="Toolbar with button groups">
+                      <ButtonGroup className="mr-3" aria-label="First group">
+                        <Button color="outline-secondary" onClick={() => {this.onRadioBtnClick(1);this.getLatestDataMain(20);}} active={this.state.radioSelected === 1}>20条</Button>
+                        <Button color="outline-secondary" onClick={() => {this.onRadioBtnClick(2);this.getLatestDataMain(50);}} active={this.state.radioSelected === 2}>50条</Button>
+                        <Button color="outline-secondary" onClick={() => {this.onRadioBtnClick(3);this.getLatestDataMain(100);}} active={this.state.radioSelected === 3}>100条</Button>
+                      </ButtonGroup>
+                    </ButtonToolbar>
+                  </Col>
+                </Row>
+                <div className="chart-wrapper" style={{ height: 300 + 'px', marginTop: 40 + 'px' }}>
+                  <Line data={this.state.mainChart} options={this.state.mainChartOpts} height={300} />
+                </div>
+              </CardBody>
+              <CardFooter>
+                
+              </CardFooter>
+            </Card>
+          </Col>
+        </Row>
+
+        <Row>
+          <Col xs="6" sm="6" lg="3">
+            <Suspense fallback={this.loading()}>
+              <Widget03 dataBox={() => ({ variant: 'facebook', friends: '89k', feeds: '459' })} >
+                <div className="chart-wrapper">
+                  <Line data={makeSocialBoxData(0)} options={socialChartOpts} height={90} />
+                </div>
+              </Widget03>
+            </Suspense>
+          </Col>
+
+          <Col xs="6" sm="6" lg="3">
+            <Suspense fallback={this.loading()}>
+              <Widget03 dataBox={() => ({ variant: 'twitter', followers: '973k', tweets: '1.792' })} >
+                <div className="chart-wrapper">
+                  <Line data={makeSocialBoxData(1)} options={socialChartOpts} height={90} />
+                </div>
+              </Widget03>
+            </Suspense>
+          </Col>
+
+          <Col xs="6" sm="6" lg="3">
+            <Suspense fallback={this.loading()}>
+              <Widget03 dataBox={() => ({ variant: 'linkedin', contacts: '500+', feeds: '292' })} >
+                <div className="chart-wrapper">
+                  <Line data={makeSocialBoxData(2)} options={socialChartOpts} height={90} />
+                </div>
+              </Widget03>
+            </Suspense>
+          </Col>
+
+          <Col xs="6" sm="6" lg="3">
+            <Suspense fallback={this.loading()}>
+              <Widget03 dataBox={() => ({ variant: 'google-plus', followers: '894', circles: '92' })} >
+                <div className="chart-wrapper">
+                  <Line data={makeSocialBoxData(3)} options={socialChartOpts} height={90} />
+                </div>
+              </Widget03>
+            </Suspense>
+          </Col>
         </Row>
 
         <Row>
@@ -298,12 +656,26 @@ class RealTime extends Component {
                 <Row>
                   <Col xs="12" md="6" xl="6">
                     <Row>
-                      {datas.map((data,index) => 
-                        <Col sm="6" key={index}>
-                          {console.log(data)}
-                          <LineTypeWithData dataset={data} variant='#AFC507' title='测试一下' num='1,256'></LineTypeWithData>
-                        </Col>
-                      )}
+                      <Col sm="6">
+                        <div className="callout callout-info">
+                          <small className="text-muted">New Clients</small>
+                          <br />
+                          <strong className="h4">9,123</strong>
+                          <div className="chart-wrapper">
+                            <Line data={makeSparkLineData(0, brandPrimary)} options={sparklineChartOpts} width={100} height={30} />
+                          </div>
+                        </div>
+                      </Col>
+                      <Col sm="6">
+                        <div className="callout callout-danger">
+                          <small className="text-muted">Recurring Clients</small>
+                          <br />
+                          <strong className="h4">22,643</strong>
+                          <div className="chart-wrapper">
+                            <Line data={makeSparkLineData(1, brandDanger)} options={sparklineChartOpts} width={100} height={30} />
+                          </div>
+                        </div>
+                      </Col>
                     </Row>
                     <hr className="mt-0" />
                     <div className="progress-group mb-4">
@@ -313,7 +685,7 @@ class RealTime extends Component {
                         </span>
                       </div>
                       <div className="progress-group-bars">
-                        <Progress className="progress-xs" color="info" value="100" />
+                        <Progress className="progress-xs" color="info" value="34" />
                         <Progress className="progress-xs" color="danger" value="78" />
                       </div>
                     </div>
@@ -401,7 +773,7 @@ class RealTime extends Component {
                           <br />
                           <strong className="h4">78,623</strong>
                           <div className="chart-wrapper">
-                            <Line data={makeSparkLineData(2, brandWarning)} options={this.state.sparklineChartOpts} width={100} height={30} />
+                            <Line data={makeSparkLineData(2, brandWarning)} options={sparklineChartOpts} width={100} height={30} />
                           </div>
                         </div>
                       </Col>
@@ -411,7 +783,7 @@ class RealTime extends Component {
                           <br />
                           <strong className="h4">49,123</strong>
                           <div className="chart-wrapper">
-                            <Line data={makeSparkLineData(3, brandSuccess)} options={this.state.sparklineChartOpts} width={100} height={30} />
+                            <Line data={makeSparkLineData(3, brandSuccess)} options={sparklineChartOpts} width={100} height={30} />
                           </div>
                         </div>
                       </Col>
@@ -720,4 +1092,4 @@ class RealTime extends Component {
   }
 }
 
-export default RealTime;
+export default TestPage;
