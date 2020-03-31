@@ -38,39 +38,7 @@ export default {
         variant: 'info',
         text: 'NEW',
       },
-    },
-    {
-      name: 'TestPage',
-      url: '/TestPage',
-      icon: 'icon-speedometer',
-      badge: {
-        variant: 'info',
-      },
-    },
-    {
-      name: 'MainData',
-      url: '/MainData',
-      icon: 'icon-speedometer',
-      badge: {
-        variant: 'info'
-      },
-    },
-    {
-      name: 'RealTime',
-      url: '/RealTime',
-      icon: 'icon-speedometer',
-      badge: {
-        variant: 'info'
-      },
-    },
-    {
-      name: 'QueryData',
-      url: '/QueryData',
-      icon: 'icon-speedometer',
-      badge: {
-        variant: 'info'
-      },
-    },
+    }
     // {
     //   name: 'Theme',
     //   wrapper: {            // optional wrapper object

@@ -36,7 +36,7 @@ class DefaultAside extends Component {
 
     return (
       <React.Fragment>
-        <Nav tabs>
+        <Nav tabs >
           <NavItem>
             <NavLink className={classNames({ active: this.state.activeTab === '1' })}
                      onClick={() => {

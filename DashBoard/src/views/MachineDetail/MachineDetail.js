@@ -1,43 +1,30 @@
-import React, { Component, lazy, Suspense } from 'react';
-import { Bar, Line } from 'react-chartjs-2';
+import React, { Component } from 'react';
+import { Line } from 'react-chartjs-2';
 import {
   Badge,
   Button,
-  ButtonDropdown,
-  ButtonGroup,
-  ButtonToolbar,
   Card,
   CardBody,
   CardFooter,
   CardHeader,
-  CardTitle,
   Col,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownToggle,
-  Progress,
   Row,
-  Table,
 } from 'reactstrap';
 import { getStyle, hexToRgba } from '@coreui/coreui/dist/js/coreui-utilities';
-import axios from 'axios';
-import LineTypeWithData from '../../components/LineCard/TypeWithData/TypeWithData'
 import { CustomTooltips } from '../../utils/custom-tooltips';
 import { dateFormat } from "../utils/DateUtils"
-//https://www.npmjs.com/package/react-datepicker
+// https://www.npmjs.com/package/react-datepicker
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-const Widget03 = lazy(() => import('../Widgets/Widget03'));
+// const Widget03 = lazy(() => import('../Widgets/Widget03'));
 
-const brandPrimary = getStyle('--primary')
-const brandSuccess = getStyle('--success')
+// const brandPrimary = getStyle('--primary')
+// const brandSuccess = getStyle('--success')
 const brandInfo = getStyle('--info')
-const brandWarning = getStyle('--warning')
-const brandDanger = getStyle('--danger')
+// const brandWarning = getStyle('--warning')
+// const brandDanger = getStyle('--danger')
 
-const base = 'http://127.0.0.1:5000'
 
 class MachineDetail extends Component {
   constructor(props) {
