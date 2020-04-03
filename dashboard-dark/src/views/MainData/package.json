@@ -1,0 +1,6 @@
+{
+  "name": "MainData",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./MainData.js"
+}

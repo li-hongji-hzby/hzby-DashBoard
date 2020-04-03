@@ -1,0 +1,135 @@
+
+body{
+  font-family: Microsoft YaHei !important;
+}
+
+.YaHei{
+  font-family: Microsoft YaHei !important;
+  font-weight: normal !important;
+}
+
+
+
+/* 背景 黑 深*/
+.bg-black-deep{
+  background: #23232E !important;
+}
+
+/* 背景 黑 */
+.bg-black-normal{
+  background-color: #20202a !important;
+}
+
+/* 字体 灰 */
+.font-color-gray{
+  color: #e1e1e1 !important;
+}
+.color-gray{
+  color: #e1e1e1 !important;
+}
+
+/* 覆盖 深蓝 */
+.hover-bule-deep:hover{
+  background-color: #988fed !important;
+}
+
+.d-flex{
+  display: flex !important;
+}
+
+.height-60{
+  height: 50px !important;
+}
+
+.h-100{
+  height: 100% !important;
+}
+
+.border-color-black{
+  border-color: #181924;
+}
+
+.d-flex-center{
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.pd-left-0{
+  padding-left: 0 !important;
+}
+
+.pd-right-0{
+  padding-right: 0 !important;
+}
+.pd-bottom-0{
+  padding-bottom: 0 !important;
+}
+.pd-top-0{
+  padding-top: 0 !important;
+}
+
+.border-0{
+  border:0 !important;
+}
+
+.p-0{
+  padding: 0 !important;
+}
+.m-0{
+  margin: 0 !important;
+}
+
+
+.click-black:focus{
+  background-color: #37373E !important;
+}
+
+.a-color{
+  color: #e1e1e1 !important;
+}
+.a-color:hover{
+  color: #e1e1e1 !important;
+}
+.a-color:visited{
+  color: #e1e1e1 !important;
+}
+
+.table-dark{
+  border-color:#4f5d73 !important;
+  background-color: #23242D !important;
+  color: #e1e1e1 !important;
+}
+.table-dark thead th{
+  border-color:#4f5d73 !important;
+  background-color: #23242D !important;
+  color: #e1e1e1 !important;
+}
+.table-dark tr td{
+  border-color:#4f5d73 !important;
+  background-color: #23242D !important;
+  color: #e1e1e1 !important;
+}
+
+.w-100{
+  width: 100% !important;
+}
+
+.my-card{
+  border-color: #4f5d73 !important;
+}
+
+.card-header{
+  background-color: #20202A !important;
+  border-bottom: 1px solid #181924 !important;
+}
+.card-body{
+  background-color: #23242D !important;
+}
+
+.mr-20{
+  margin-right: 20px !important;
+}
+.ml-20{
+  margin-left: 20px !important;
+}
