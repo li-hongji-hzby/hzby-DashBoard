@@ -58,19 +58,20 @@ class DefaultLayout extends Component {
 
   render() {
     return (
-        <Grid divided style={{"height":"100%"}} >
+        <Grid divided style={{"height":"100%", "marginTop": 0}} >
           {/* header */}
-          <Grid.Row className="d-flex-center w-100 p-0 top" style={{"height":"10%"}}>
+          <Grid.Row className="d-flex-center w-100 p-0 top" style={{"height":"8%"}}>
             <Grid.Column className="d-flex-center h-100" width={2}>
               header
             </Grid.Column>
-            <Grid.Column className="d-flex-center h-100"  width={14}
+            <Grid.Column className="d-flex h-100"  width={14}
                       style={{"backgroundColor": "#2c2c34","borderBottom":"1px solid #181924"}} >
+
             </Grid.Column>
           </Grid.Row>
           {/* header */}
           {/* main */}
-          <Grid.Row className="d-flex w-100 p-0" style={{"height":"80%"}}>
+          <Grid.Row className="d-flex w-100 p-0" style={{"height":"84%"}}>
             {/* 菜单 */}
             <Grid.Column  width={2} className="p-0"
                 style={{"overflowY":"hidden","flex":"1", "backgroundColor": "#2c2c34","borderRight":"1px solid #181924"}}
@@ -99,7 +100,7 @@ class DefaultLayout extends Component {
             </Grid.Column>
           </Grid.Row>
           {/* main */}
-          <Grid.Row className="d-flex-center w-100 p-0" style={{"height":"10%"}}>
+          <Grid.Row className="d-flex-center w-100 p-0" style={{"height":"8%"}}>
             <Grid.Column className="d-flex-center h-100" width={2}>
               header
             </Grid.Column>
