@@ -105,7 +105,7 @@ class index extends Component {
               </Card.Content>
               <Card.Content className="d-flex card-body" style={{"justifyContent":"start","padding":"20px 30px","flexWrap":"wrap"}}>
                 {this.state.msgKindList.map((key, index) => 
-                  <Label as='a' color='teal' onClick={() => this.changeMsgKind(key)} style={{"marginRight":"20px","marginBottom":"10px"}} >{key}</Label>
+                  <Label key={index} as='a' color='teal' onClick={() => this.changeMsgKind(key)} style={{"marginRight":"20px","marginBottom":"10px"}} >{key}</Label>
                 )}
               </Card.Content>
             </Card>
@@ -123,6 +123,7 @@ class index extends Component {
                     <DatePicker
                       // maxDate={new Date('2019-09-18 05:42:00')}
                       // minDate={new Date('2019-08-17 00:00:00')}
+                      showTimeSelect
                       selected={this.state.startDate}
                       onChange={this.setStartDate}
                       className="ml-20"

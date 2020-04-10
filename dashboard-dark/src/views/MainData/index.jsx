@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Grid, Card, Label, Table, Dropdown } from 'semantic-ui-react';
 import { Line } from 'react-chartjs-2';
+import cookie from 'react-cookies';
 import CardWithTitle from '../../components/LineCard/CardWithTitle';
 
 const cardMock = [
@@ -119,6 +120,12 @@ export default class index extends Component {
     })
   }
 
+  componentDidMount(){
+    if(cookie.load('user') === undefined){
+      this.props.history.push('/Login')
+    }
+  }
+
   render() {
     return (
       <Grid>
@@ -132,7 +139,7 @@ export default class index extends Component {
               <Card className="w-100" style={{"background":"#23242D","boxShadow":"none"}}>
                 <Card.Content className="card-header" style={{"padding":"1.5rem 3rem 1rem 1.5rem"}}>
                   <Card.Header className="d-flex" style={{"justifyContent":"space-between"}}>
-                    <Label color='blue YaHei' >{this.state.kind} / {this.state.timeRange}</Label>
+                    <Label className="YaHei" color='blue' >{this.state.kind} / {this.state.timeRange}</Label>
                     <div>
                       <Dropdown
                         text='选择种类'
@@ -179,7 +186,7 @@ export default class index extends Component {
               <Card className="w-100" style={{"background":"#23242D","boxShadow":"none"}}>
                 <Card.Content className="card-header" style={{"padding":"1.5rem 3rem 1rem 1.5rem"}}>
                   <Card.Header className="d-flex" style={{"justifyContent":"space-between"}}>
-                    <Label color='blue YaHei'>数据列表</Label>
+                    <Label className="YaHei" color='blue'>数据列表</Label>
                   </Card.Header>
                 </Card.Content>
                 <Card.Content className="card-body" style={{"maxHeight":"375px","overflowY":"scroll"}}>

@@ -1,13 +1,19 @@
 import React from 'react';
 import './App.css';
 import DefaultLayout from './pages/DefaultLayout/DefaultLayout';
-import {BrowserRouter} from 'react-router-dom';
+import {BrowserRouter, Switch,Route} from 'react-router-dom';
+import './style/global-style.css'
+
+import Login from './views/Login';
 
 function App() {
   return (
     <BrowserRouter>
       <div className="App">
-          <DefaultLayout></DefaultLayout>
+          <Switch>
+              <Route path='/Home' component={DefaultLayout}/>
+              <Route exact path='/Login' component={Login}/>
+          </Switch>
       </div>
     </BrowserRouter>
   );

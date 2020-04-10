@@ -1,13 +1,12 @@
-export default {
-  items:[
+export default [
     {        
       "name":"数据概览",
-      "url":"/",
+      "url":"/Home/MainData",
       "children":[]
     },
     {        
       "name":"实时数据",
-      "url":"/MachineRoom",
+      "url":"/Home/MachineRoom",
       "children":[]
     },
     {        
@@ -16,13 +15,12 @@ export default {
       "children":[
         {
           "name":"空压机一号",
-          "url":"/Machine",
+          "url":"/Home/Machine",
         },
         {
           "name":"空压机二号",
-          "url":"/Marchine",
+          "url":"/Home/Marchine",
         },
       ]
     },
   ]
-}
