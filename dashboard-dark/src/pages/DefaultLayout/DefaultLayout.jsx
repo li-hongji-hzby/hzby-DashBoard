@@ -13,12 +13,12 @@ import logo from '../DefaultLayout/logo.png';
 
 
 
-
 const HomeButton= () => {
   let history = useHistory();
   function handleClick() {
     history.push("/Home");
   }
+  
   return (
     <Breadcrumb.Section type="button" onClick={handleClick}>
       Home
@@ -38,6 +38,13 @@ class DefaultLayout extends Component {
     }
   }
 
+  componentDidMount(){
+    if(cookie.load('userMsg') === undefined){
+      this.props.history.push('/Login')
+    }
+  }
+
+
   loading = () => <div className="">载入中...</div>
 
   menuVisiable = () => {
@@ -48,12 +55,14 @@ class DefaultLayout extends Component {
 
 
   logout = () => {
+    cookie.remove("userMsg",{ path: '/' })
     cookie.remove("user",{ path: '/' })
     this.setState({
       user:undefined,
     })
     console.log(cookie.load('user'))
   }
+  
   login(value) {
     this.setState({
       user: value,
@@ -67,6 +76,8 @@ class DefaultLayout extends Component {
     })
   }
   
+
+
   render() {
     return (
         <Grid divided style={{"height":"100%", "margin": 0}} >
@@ -151,7 +162,6 @@ class DefaultLayout extends Component {
                           style={{"flex":1,"justifyContent":"space-between","alignItems":"center",
                                   "padding":"0 1.5rem","backgroundColor": "#2c2c34"}}>
               <div>涵智博雅 © 2020 creativeLabs.</div>
-              <div>Powered by Semantic UI</div>
             </Grid.Column>
           </Grid.Row>
         </Grid>

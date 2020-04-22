@@ -1,45 +1,49 @@
 import React, { Component } from 'react';
-import { Grid, Card, Label, Table, Dropdown } from 'semantic-ui-react';
+import { Grid, Card, Label, Table, Button } from 'semantic-ui-react';
 import { Line } from 'react-chartjs-2';
 import cookie from 'react-cookies';
+import Axios from 'axios';
 import CardWithTitle from '../../components/LineCard/CardWithTitle';
+import { dateFormat } from '../../utils/DateUtils';
 
-const cardMock = [
-  {
-    'kind':"电",
-    "bgColor":"#352B9B",
-    "datas": [1,23,12,2,45,15,96],
-    "labels": ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
-  },
-  {
-    'kind':"气",
-    "bgColor":"#448BCD",
-    "datas": [123,21,1,54,45,47,6],
-    "labels": ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
-  },
-  {
-    'kind':"压力",
-    "bgColor":"#DF9B28",
-    "datas": [12,1,12,54,41,2,96],
-    "labels": ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
-  },
-  {
-    'kind':"单耗",
-    "bgColor":"#C65757",
-    "datas": [12,23,12,3,45,47,96],
-    "labels": ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
-  },
-]
+import '../../server'
+
+
 
 export default class index extends Component {
 
   constructor(props){
     super(props)
     this.state={
-      timeRange:'最近一个月',
+      timeRange:'月',
+      timeFormat:'YY年mm月dd号 ',
       kind:'电',
+      labelColor:"#352B9B",
+      cardDatas:[
+        {
+          'kind':"电",
+          "bgColor":"#352B9B",
+          "datas": [],
+          "labels": [],
+          "unit":"kW"
+        },
+        {
+          'kind':"气",
+          "bgColor":"#448BCD",
+          "datas": [],
+          "labels": [],
+          "unit":"m³/min"
+        },
+        {
+          'kind':"单耗",
+          "bgColor":"#C65757",
+          "datas": [],
+          "labels": [],
+          "unit":"kW·H/m³"
+        },
+      ],
       mainChart:{
-        labels: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
+        labels: [],
         datasets: [
           {
             label: 'coyote_creek',
@@ -47,7 +51,7 @@ export default class index extends Component {
             borderColor: '#3399FF',
             pointHoverBackgroundColor: '#fff',
             borderWidth: 2,
-            data: [12,23,12,54,45,47,96,12,23,12,54,45,47,96,12,23,12,54,45,47,96,12,23,12,54,45,47,96],
+            data: [],
           },
         ],
       },
@@ -86,52 +90,143 @@ export default class index extends Component {
         },
       },
       tableDatas:{
-        labels:['时间','数据1','数据2','数据3'],
-        datas:[
-          ['一月','222','321','123'],
-          ['二月','222','321','123'],
-          ['三月','222','321','123'],
-          ['四月','222','321','123'],
-          ['五月','222','321','123'],
-          ['六月','222','321','123'],
-          ['七月','222','321','123'],
-          ['八月','222','321','123'],
-          ['一月','222','321','123'],
-          ['二月','222','321','123'],
-          ['三月','222','321','123'],
-          ['四月','222','321','123'],
-          ['五月','222','321','123'],
-          ['六月','222','321','123'],
-          ['七月','222','321','123'],
-          ['八月','222','321','123'],
-        ]
+        labels:['时间','电','气','单耗'],
+        datas:[]
       }
     }
   }
 
-  changeKind = (kind) => {
+  changeKind = (kind,color) => {
+    let dataKind
+    switch(kind){
+      case '电':
+        dataKind = 'electricity'
+        break
+      case '气':
+        dataKind = 'air'
+        break
+      case '单耗':
+        dataKind = 'unitCost'
+        break
+      default:
+        dataKind = 'electricity'
+    }
+    let labels = []
+    let datas = []
+    // console.log(datas)
+    for(let i in this.state.tableDatas.datas){
+      datas.push(this.state.tableDatas.datas[i][dataKind])
+      labels.push(dateFormat("YY/mm/dd HH:MM",new Date(this.state.tableDatas.datas[i]['timestamp']*1000)))
+    }
+    let newChartData = this.state.mainChart
+    newChartData['labels'] = labels
+    newChartData['datasets'][0]['data'] = datas
+    let newChartOpts = this.state.mainChartOpts
+    newChartOpts['scales']['yAxes'][0]['ticks']['max'] = Math.max.apply(Math, datas) 
+    newChartOpts['scales']['yAxes'][0]['ticks']['min'] = Math.min.apply(Math, datas) 
     this.setState({
-      kind:kind
+      mainChart: newChartData,
+      mainChartOpts:newChartOpts,
+      kind:kind,
+      labelColor:color
     })
   }
-  changeTime = (time) => {
+  changeTime = (range,format) => {
+    this.getMainDatas(range).then(()=>{
+      this.changeKind(this.state.kind,this.state.labelColor)
+    })
     this.setState({
-      timeRange:time
+      timeRange:range,
+      timeFormat:format
     })
   }
 
   componentDidMount(){
-    if(cookie.load('user') === undefined){
+    if(cookie.load('userMsg') === undefined){
       this.props.history.push('/Login')
     }
+    this.getWeekDatas()
+    this.getMainDatas(this.state.timeRange).then(() =>{
+      this.changeKind(this.state.kind,this.state.labelColor)
+    })
   }
+
+
+  getWeekDatas = () => {
+    Axios.get("http://139.196.28.123/API/SummaryDay/getNewestLimit?limit=7").then(res =>{
+      let result = res.data
+      // console.log(result);
+      let labels = []
+      let elects = []
+      let airs = []
+      let units = []
+      for(let i in result){
+        labels.push(dateFormat('YYYY/mm/dd',new Date(result[i]['timestamp']*1000)))
+        elects.push(result[i]['electricity'])
+        airs.push(result[i]['air'])
+        units.push(result[i]['unitCost'])
+      }
+      let newData = this.state.cardDatas
+      newData[0]['datas'] = elects
+      newData[0]['labels'] = labels
+      newData[1]['datas'] = airs
+      newData[1]['labels'] = labels
+      newData[2]['datas'] = units
+      newData[2]['labels'] = labels
+      this.setState({
+        cardDatas:newData
+      })
+    }).catch(err => {
+      console.log(err);
+      this.props.history.push('/Login')
+    })
+  }
+
+  getMainDatas = async (range) =>{
+    var _that = this
+    var url = "http://139.196.28.123/API"
+    switch(range){
+      case '月':
+        url += '/SummaryDay/getNewestLimit?limit=30'
+        break;
+      case '日':
+        url += '/SummaryHour/getNewestLimit?limit=24'
+        break
+      case '年':
+        url += '/SummaryMonth/getNewestLimit?limit=24'
+        break
+      default:
+        url += '/SummaryDay/getNewestLimit?limit=30'
+    } 
+    let resData = await Axios.get(url).then(res =>{
+      return res.data
+    }).catch(err => {
+      console.log("=============getMainDatas==============")
+      console.log(err.response.status);
+      console.log(err);
+      this.props.history.push('/Login')
+      return []
+    })
+    let newTableDatas = this.state.tableDatas
+    // console.log(resData)
+    newTableDatas['datas'] = resData
+    _that.setState({
+      tableDatas:newTableDatas
+    })
+    // console.log(_that.state.tableDatas)
+  }
+
+
 
   render() {
     return (
       <Grid>
-        <Grid.Row>
-          { cardMock.map( (key, index) => 
-            <CardWithTitle key={index} kind={key.kind} bgColor={key.bgColor} datas={key.datas} labels={key.labels}></CardWithTitle>
+        <Grid.Column width={12}>
+        <Grid.Row className="d-flex" style={{"justifyContent":"space-between","padding":"2rem"}}>
+          { this.state.cardDatas.map( (key, index) => 
+          <Grid.Column width={4} key={index}  onClick={()=>{ this.changeKind(key.kind,key.bgColor) }}>
+            <CardWithTitle kind={key.kind} bgColor={key.bgColor} unit={key.unit} mainChart={key.mainChart} datas={key.datas} labels={key.labels}></CardWithTitle>
+          </Grid.Column>
           )}
         </Grid.Row>
         <Grid.Row>
@@ -139,39 +234,19 @@ export default class index extends Component {
               <Card className="w-100" style={{"background":"#23242D","boxShadow":"none"}}>
                 <Card.Content className="card-header" style={{"padding":"1.5rem 3rem 1rem 1.5rem"}}>
                   <Card.Header className="d-flex" style={{"justifyContent":"space-between"}}>
-                    <Label className="YaHei" color='blue' >{this.state.kind} / {this.state.timeRange}</Label>
+                    <Label className="YaHei" style={{"backgroundColor":this.state.labelColor,"color":"#FFFFFF","paddingTop": "0.8rem"}}>{this.state.kind} / {this.state.timeRange}</Label>
                     <div>
-                      <Dropdown
-                        text='选择种类'
-                        icon='align left'
-                        floating
-                        labeled
-                        button
-                        className='icon YaHei'
-                      >
-                        <Dropdown.Menu>
-                          <Dropdown.Header icon='align left' content='种类' />
-                          <Dropdown.Item onClick={()=>{ this.changeKind("电") }}>电</Dropdown.Item>
-                          <Dropdown.Item onClick={()=>{ this.changeKind("气") }}>气</Dropdown.Item>
-                          <Dropdown.Item onClick={()=>{ this.changeKind("压力") }}>压力</Dropdown.Item>
-                          <Dropdown.Item onClick={()=>{ this.changeKind("单耗") }}>单耗</Dropdown.Item>
-                        </Dropdown.Menu>
-                      </Dropdown>
-                      <Dropdown
-                        text='请选择周期'
-                        icon='calendar alternate'
-                        floating
-                        labeled
-                        button
-                        className='icon YaHei'
-                      >
-                        <Dropdown.Menu>
-                          <Dropdown.Header icon='calendar alternate' content='时间周期' />
-                          <Dropdown.Item onClick={()=>{ this.changeTime("最近一小时") }}>最近一小时</Dropdown.Item>
-                          <Dropdown.Item onClick={()=>{ this.changeTime("最近一天") }}>最近一天</Dropdown.Item>
-                          <Dropdown.Item onClick={()=>{ this.changeTime("最近一个月") }}>最近一个月</Dropdown.Item>
-                        </Dropdown.Menu>
-                      </Dropdown>
+                      <Button.Group>
+                        <Button inverted color='violet' onClick={()=>{ this.changeTime("年","YY年mm月") }}>
+                          年
+                        </Button>
+                        <Button inverted color='violet' onClick={()=>{ this.changeTime("月","YY年mm月dd日") }}>
+                          月
+                        </Button>
+                        <Button inverted color='violet' onClick={()=>{ this.changeTime("日","dd日HH时MM分") }}>
+                          日
+                        </Button>
+                      </Button.Group>
                     </div>
                   </Card.Header>
                 </Card.Content>
@@ -182,14 +257,16 @@ export default class index extends Component {
                 </Card.Content>
               </Card>
           </Grid.Column>
-          <Grid.Column width={4} className="d-flex-center" >
+        </Grid.Row>
+        </Grid.Column>
+        <Grid.Column width={4} className="d-flex" >
               <Card className="w-100" style={{"background":"#23242D","boxShadow":"none"}}>
-                <Card.Content className="card-header" style={{"padding":"1.5rem 3rem 1rem 1.5rem"}}>
+                <Card.Content className="card-header" style={{"maxHeight": "55px","padding":"1.2rem 3rem 1rem 1.5rem"}}>
                   <Card.Header className="d-flex" style={{"justifyContent":"space-between"}}>
                     <Label className="YaHei" color='blue'>数据列表</Label>
                   </Card.Header>
                 </Card.Content>
-                <Card.Content className="card-body" style={{"maxHeight":"375px","overflowY":"scroll"}}>
+                <Card.Content className="card-body" style={{"maxHeight":"630px","overflowY":"scroll"}}>
                   <Table celled className="table-dark">
                     <Table.Header>  
                       <Table.Row>
@@ -201,8 +278,10 @@ export default class index extends Component {
                     <Table.Body>
                         {this.state.tableDatas.datas.map((data,index) => 
                           <Table.Row key={index}>
-                              { data.map((msg, index) => 
-                                <Table.Cell scope={index===0?'row':''} key={index}>{msg}</Table.Cell>  
+                              { Object.keys(data).map((msg, index) => 
+                                <Table.Cell scope={index===0?'row':''} style={{'fontSize': '0.8rem'}} key={index}>
+                                  {msg === 'timestamp'?dateFormat(this.state.timeFormat,new Date(data[msg]*1000)):data[msg]}
+                                </Table.Cell>  
                               )}
                           </Table.Row>
                         )}
@@ -212,7 +291,6 @@ export default class index extends Component {
               </Card>
             {/*  */}
           </Grid.Column>
-        </Grid.Row>
       </Grid>
     )
   }

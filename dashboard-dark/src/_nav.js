@@ -1,7 +1,7 @@
 export default [
     {        
       "name":"数据概览",
-      "url":"/Home/MainData",
+      "url":"/Home",
       "children":[]
     },
     {        

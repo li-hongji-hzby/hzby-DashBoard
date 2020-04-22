@@ -4,6 +4,7 @@ import { Line } from 'react-chartjs-2';
 // https://www.npmjs.com/package/react-datepicker
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import cookie from 'react-cookies';
 
 class index extends Component {
 
@@ -88,7 +89,13 @@ class index extends Component {
       endDate:date
     })
   }
-
+  
+  componentDidMount(){
+    if(cookie.load('userMsg') === undefined){
+      this.props.history.push('/Login')
+    }
+  }
+  
   render() {
     return (
       <Grid>

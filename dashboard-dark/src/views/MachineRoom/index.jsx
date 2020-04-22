@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
 import { Grid, Card, Header, Label, Table } from 'semantic-ui-react';
+import Axios from 'axios';
+import cookie from 'react-cookies';
+
+import '../../server'
+
 
 const bgColors = [ "#352B9B","#448BCD","#DF9B28","#C65757",]
 
@@ -9,42 +14,69 @@ class index extends Component {
     super(props)
     this.state={
       mainDatas:{
-        "空气流量":"12",
-        "功率":"23",
-        "压力":"15",
-        "气电比":"99",
+        "空气流量":{
+          "data":"12",
+          "unit":"m³/min"
+        },
+        "功率":{
+          "data":"20",
+          "unit":"kw"
+        },
+        "压力":{
+          "data":"15",
+          "unit":"Mpa"
+        },
+        "气电比":{
+          "data":"99",
+          "unit":"kWh/m³"
+        },
       },
       tableDatas:{
         "空压机":{    
           "labels":['机器','状态','出口压力','功率',"频率","排气温度"],
-          "datas":[
-            ['空压机一号',true,'321','123','321','123'],
-            ['空压机二号',false,'321','123','321','123'],
-            ['空压机三号',true,'321','123','321','123'],
-            ['空压机四号',false,'321','123','321','123'],
-            ['空压机五号',true,'321','123','321','123'],
-            ['空压机六号',false,'321','123','321','123'],
-            ['空压机七号',true,'321','123','321','123'],
-            ['空压机八号',false,'321','123','321','123'],
-            ['空压机九号',true,'321','123','321','123'],
-          ]
+          "datas":[]
         },
         "干燥机":{    
           "labels":['机器','状态','压力','功率',"露点"],
-          "datas":[
-            ['干燥机一号',true,'321','123','321'],
-            ['干燥机二号',false,'321','123','321'],
-            ['干燥机三号',true,'321','123','321'],
-            ['干燥机四号',false,'321','123','321'],
-            ['干燥机五号',true,'321','123','321'],
-            ['干燥机六号',false,'321','123','321'],
-            ['干燥机七号',true,'321','123','321'],
-            ['干燥机八号',false,'321','123','321'],
-            ['干燥机九号',true,'321','123','321'],
-          ]
+          "datas":[]
         },
+        "流量计":{
+          "labels":['机器','状态','流量'],
+          "datas":[]
+        }
       }
     }
+  }
+
+  componentDidMount() {
+
+    if(cookie.load('userMsg') === undefined){
+      this.props.history.push('/Login')
+    }
+    this.getTableDatas()
+  }
+
+  getTableDatas = async () => {
+    let result = await Axios.get("http://139.196.28.123/API/RealTime/listRealTimeDatas").then(res =>{
+      return res.data
+    }).catch(err => {
+      console.log(err)
+      this.props.history.push('/Login')
+      return {}
+    })
+    // console.log(result)
+    let newData = this.state.tableDatas
+    for(let i in result){
+      let arr=[]
+      for(let j in result[i]){
+        arr.push(Object.values(result[i][j]))
+      }
+      newData[i]['datas'] = arr
+    }
+    this.setState({
+      tableDatas:newData
+    })
+    // console.log(newData)
   }
 
   render() {
@@ -69,8 +101,9 @@ class index extends Component {
                           <Header as='h2' className="color-gray m-0 YaHei">{key}</Header>
                       </Card.Header>
                     </Card.Content>
-                    <Card.Content className="color-gray card-body d-flex-center">
-                      <Header as='h2' className="color-gray m-0">{this.state.mainDatas[key]}</Header>
+                    <Card.Content className="color-gray card-body d-flex-center" style={{}}>
+                      <Header as='h2' className="color-gray m-0">{this.state.mainDatas[key]['data']}</Header>
+                      <Header as='h3' className="color-gray m-0" style={{"padding":"5px"}}>{this.state.mainDatas[key]['unit']}</Header>
                     </Card.Content>
                   </Card>
                 </Grid.Column>
@@ -101,7 +134,7 @@ class index extends Component {
                             <Table.Row key={index}>
                               {data.map((msg, index) => 
                                   typeof(msg) == 'boolean'
-                                  ? (<Table.Cell key={index} >{ msg ? '🟢':'🔴' }</Table.Cell> )
+                                  ? (<Table.Cell key={index} ><div style={{"height":"15px","width":"15px","borderRadius":"50%","backgroundColor":msg?"green":"red"}}></div></Table.Cell> )
                                   : (<Table.Cell key={index} >{ msg }</Table.Cell> )
                               )}
                             </Table.Row>
@@ -112,7 +145,6 @@ class index extends Component {
                 </Card>
               </Grid.Row>
             )}
-              
           </Grid>
         </Card.Content>
       </Card>
