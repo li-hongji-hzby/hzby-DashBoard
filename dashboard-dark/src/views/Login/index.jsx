@@ -44,8 +44,8 @@ export default class index extends Component {
     let msg = JSON.parse(resMsg['msg'])
     cookie.remove("userMsg",{ path: '/' })
     cookie.remove("user",{ path: '/' })
-    cookie.save("userMsg", msg['jwt'],{maxAge: 5000})
-    cookie.save("user", msg['user'],{maxAge: 5000})
+    cookie.save("userMsg", msg['jwt'],{maxAge: 1000*60*2880})
+    cookie.save("user", msg['user'],{maxAge: 1000*60*2880})
     this.props.history.push('/Home')
     
   }
