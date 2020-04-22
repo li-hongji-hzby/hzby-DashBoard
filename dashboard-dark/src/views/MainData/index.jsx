@@ -96,6 +96,8 @@ export default class index extends Component {
     }
   }
 
+  intervalId 
+
   changeKind = (kind,color) => {
     let dataKind
     switch(kind){
@@ -149,8 +151,16 @@ export default class index extends Component {
     this.getMainDatas(this.state.timeRange).then(() =>{
       this.changeKind(this.state.kind,this.state.labelColor)
     })
+    this.intervalId = setInterval(() => {
+      console.log("等待数据接口")
+    }, 10*1000);
   }
 
+  componentWillUnmount(){
+    if (this.intervalId) {
+      clearInterval(this.intervalId)
+    }
+  }
 
   getWeekDatas = () => {
     Axios.get("http://139.196.28.123/API/SummaryDay/getNewestLimit?limit=7").then(res =>{

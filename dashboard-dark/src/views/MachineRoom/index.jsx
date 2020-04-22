@@ -48,12 +48,24 @@ class index extends Component {
     }
   }
 
+  
+  intervalId 
+
   componentDidMount() {
 
     if(cookie.load('userMsg') === undefined){
       this.props.history.push('/Login')
     }
     this.getTableDatas()
+    this.intervalId = setInterval(() => {
+      this.getTableDatas()
+    }, 10*1000);
+  }
+
+  componentWillUnmount(){
+    if (this.intervalId) {
+      clearInterval(this.intervalId)
+    }
   }
 
   getTableDatas = async () => {

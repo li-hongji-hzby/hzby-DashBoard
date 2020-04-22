@@ -82,7 +82,7 @@ class DefaultLayout extends Component {
     return (
         <Grid divided style={{"height":"100%", "margin": 0}} >
           {/* header */}
-          <Grid.Row className="d-flex-center w-100 p-0 top" style={{"height":"8%"}}>
+          <Grid.Row className="d-flex-center w-100 p-0 top" style={{"height":"8%","maxHeight":"80px","minHeight":"40px"}}>
             <Grid.Column  className="h-100" width={2} 
                           style={{"display":this.state.menuVisiable?"flex":"none","justifyContent":"center",
                                   "alignItems":"center"}}>
@@ -152,7 +152,7 @@ class DefaultLayout extends Component {
             </Grid.Column>
           </Grid.Row>
           {/* main */}
-          <Grid.Row className="w-100 p-0" style={{"height":"8%"}}>
+          <Grid.Row className="w-100 p-0" style={{"height":"8%","maxHeight":"80px","minHeight":"40px"}}>
             <Grid.Column  className="h-100" width={2}
                           style={{"display":this.state.menuVisiable?"flex":"none",
                                   "justifyContent":"center","alignItems":"center"}}>
