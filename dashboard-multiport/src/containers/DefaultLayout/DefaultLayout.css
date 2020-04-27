@@ -1,0 +1,43 @@
+
+/* 页面容器 */
+.app-container{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 0;
+  max-height: 100%;
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+/* 页面主体 */
+.app-body{
+  flex: 1;
+}
+/*  页面侧边栏 */
+.mobile-app-sidebar{
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  height: 100%;
+  left: 0;
+}
+@media(max-width:992px){
+  .app-sidebar{
+    display: none !important;
+  }
+}
+
+/* 页面内容 */
+.app-main{
+  flex: 1;
+  max-width: 100%;
+}
+.app-main-content{
+  overflow-y: scroll;
+}
+
+/* 面包屑 */
+.breadcrumb{
+  background-color: #2C2C34 !important;
+}

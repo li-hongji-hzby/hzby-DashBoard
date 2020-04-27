@@ -1,0 +1,20 @@
+
+/* 覆盖 深蓝 */
+.hover-bule-deep:hover{
+  background-color: #988fed !important;
+}
+/* 一级菜单图标 */
+.first-icon{
+  padding:20px;
+  text-align:left;
+}
+
+.menu-color{
+  font-size: 1rem !important;
+}
+.menu-color a{
+  color: rgba(255, 255, 255, 0.75) !important;
+}
+.menu-color a:hover{
+  text-decoration: none;
+}

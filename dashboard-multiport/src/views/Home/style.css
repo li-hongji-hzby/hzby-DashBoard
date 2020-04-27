@@ -1,0 +1,14 @@
+
+.self-table-card{
+  overflow-y: scroll;
+  border-bottom: 1rem solid #23242D;
+}
+@media(max-width:992px){
+  .self-card-box{
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+.self-table{
+  word-wrap: anywhere;
+}

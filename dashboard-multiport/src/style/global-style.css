@@ -1,0 +1,89 @@
+/* 深黑 */
+.dark-black{
+    background-color: #0A0B18;
+    color: rgba(255, 255, 255, 0.75);
+}
+/* 背景-黑色 */
+.brank-black{
+    background-color: #2C2C34 !important;
+    color: rgba(255, 255, 255, 0.75) !important;
+}
+/* 组件头背景-黑色 */
+.self-card{
+    border: none !important;
+}
+.self-card-header{
+    background-color: #20202A !important;
+    color: rgba(255, 255, 255, 0.75);
+}
+/* 组件内容背景-黑色 */
+.self-card-content{
+    background-color: #23242D;
+    color: rgba(255, 255, 255, 0.75);
+}
+/* 全局字体颜色 */
+.global-color{
+    color: rgba(255, 255, 255, 0.75) !important;
+}
+.h-56{
+    height: 56px;
+}
+.w-256{
+    width: 256px;
+}
+/*  */
+.bs-border{
+    box-sizing: border-box !important;
+}
+/* 深黑分割线 */
+.self-border-bottom-dark{
+    border-bottom:1px solid #181924 !important;
+}
+.self-border-top-dark{
+    border-top:1px solid #181924 !important;
+}
+.self-border-right-dark{
+    border-right:1px solid #181924 !important;
+}
+/* 字体 */
+.fz-1{
+    font-size: 1rem !important;
+}
+
+@media(max-width:720px){
+    h1{
+        font-size: 20px !important;
+    }
+}
+
+/* display */
+.d-none{
+    display: none !important;
+}
+.d-block{
+    display: block !important;
+}
+.d-flex{
+    display: flex !important;
+}
+.mr-256{
+    margin-right: 256px;
+}
+::-webkit-scrollbar {
+    /*隐藏滚轮*/
+    display: none !important;
+}
+
+/* 上分割线 */
+
+.top-divider{
+    margin-top: 20px;
+}
+@media(max-width:992px){
+    .mobile-top-divider{
+        margin-top: 10px;
+    }
+    .top-divider{
+        margin-top: 10px;
+    }
+}

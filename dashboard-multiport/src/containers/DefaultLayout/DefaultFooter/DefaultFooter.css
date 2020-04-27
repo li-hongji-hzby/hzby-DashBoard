@@ -1,0 +1,14 @@
+.footer-logo-box{
+  width: 256px;
+  height: 100%;
+}
+
+@media(max-width:720px){
+  .footer-box{
+    display: none !important;
+  }
+  .footer-logo-box{
+    width: 100%;
+    height: 100%;
+  }
+}

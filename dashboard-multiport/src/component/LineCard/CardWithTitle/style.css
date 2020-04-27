@@ -1,0 +1,38 @@
+.card-num{
+  font-size: 2.5vw;
+}
+.card-unit{
+  font-size: 1.5vw;
+  padding:5px;
+}
+
+.card-box{
+  box-shadow:none;
+  width: 90%;
+}
+
+@media(max-width:992px){
+  .card-num{
+    font-size: 70px !important;
+    font-weight: 600;
+  }
+  .card-unit{
+    font-size: 25px !important;
+    padding:5px;
+    font-weight: 600;
+  }
+  .card-box{
+    width: 100%;
+  }
+}
+@media(max-width:576px){
+  .card-num{
+    font-size: 12vw !important;
+    font-weight: 600;
+  }
+  .card-unit{
+    font-size: 6vw !important;
+    padding:5px;
+    font-weight: 600;
+  }
+}

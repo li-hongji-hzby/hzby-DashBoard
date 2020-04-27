@@ -1,0 +1,9 @@
+.realtime-top-card{
+  width: 80%;
+}
+
+@media(max-width:992px){
+  .realtime-top-card{
+    width: 100%;
+  }
+}
