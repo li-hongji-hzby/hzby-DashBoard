@@ -18,3 +18,9 @@
 .menu-color a:hover{
   text-decoration: none;
 }
+
+.sidebar-icon{
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+}

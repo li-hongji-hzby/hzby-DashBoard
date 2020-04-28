@@ -17,7 +17,7 @@ const defaultData={
   ]
 }
 
-export default class MySideBar extends Component {
+export default class index extends Component {
 
   constructor(props){
     super(props)
@@ -42,10 +42,7 @@ export default class MySideBar extends Component {
                   className="hover-bule-deep first-icon d-flex align-items-center justify-content-between"
               >
                 <div className="d-flex align-items-center">
-                  <svg className="bi bi-layout-text-window-reverse mr-3" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path fillRule="evenodd" d="M2 1h12a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zm12-1a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z" clipRule="evenodd"/>
-                    <path fillRule="evenodd" d="M5 15V4H4v11h1zM.5 4h15V3H.5v1zM13 6.5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h5a.5.5 0 0 0 .5-.5zm0 3a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h5a.5.5 0 0 0 .5-.5zm0 3a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h5a.5.5 0 0 0 .5-.5z" clipRule="evenodd"/>
-                  </svg>
+                  <img src={this.props.menuData.icon} alt="" className="sidebar-icon" />
                   {this.state.menuData.name}
                 </div>
                 {this.state.visiable
@@ -63,10 +60,7 @@ export default class MySideBar extends Component {
                       <div  className="hover-bule-deep click-black d-flex align-items-center" 
                       style={{"padding":"20px 30px","textAlign":"left"}} 
                       >
-                        <svg className="bi bi-layout-text-window-reverse mr-3" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                          <path fillRule="evenodd" d="M2 1h12a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zm12-1a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z" clipRule="evenodd"/>
-                          <path fillRule="evenodd" d="M5 15V4H4v11h1zM.5 4h15V3H.5v1zM13 6.5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h5a.5.5 0 0 0 .5-.5zm0 3a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h5a.5.5 0 0 0 .5-.5zm0 3a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h5a.5.5 0 0 0 .5-.5z" clipRule="evenodd"/>
-                        </svg>
+                        <img src={this.props.menuData.icon} alt="" className="sidebar-icon" />
                         {key.name}
                       </div>
                     </Link>
@@ -78,10 +72,7 @@ export default class MySideBar extends Component {
               <Link className="a-color" to={this.state.menuData.url}>
                 <div  className="hover-bule-deep click-black first-icon d-flex align-items-center" 
                 >
-                  <svg className="bi bi-layout-text-window-reverse mr-3" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path fillRule="evenodd" d="M2 1h12a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zm12-1a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z" clipRule="evenodd"/>
-                    <path fillRule="evenodd" d="M5 15V4H4v11h1zM.5 4h15V3H.5v1zM13 6.5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h5a.5.5 0 0 0 .5-.5zm0 3a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h5a.5.5 0 0 0 .5-.5zm0 3a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h5a.5.5 0 0 0 .5-.5z" clipRule="evenodd"/>
-                  </svg>
+                  <img src={this.props.menuData.icon} alt="" className="sidebar-icon" />
                   {this.state.menuData.name}
                 </div>
               </Link>

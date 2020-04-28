@@ -9,9 +9,12 @@ import cookie from 'react-cookies';
 import SideBarItem from '../../component/SideBarItem'
 import _nav from '../../_nav'
 import routers from '../../router'
+import more from './more.jpg'
+import hide from './hide.png'
 
-const DefaultHeader = React.lazy(() => import('./DefaultHeader/DefaultHeader'));
-const DefaultFooter = React.lazy(() => import('./DefaultFooter/DefaultFooter'));
+const DefaultHeader = React.lazy(() => import('./DefaultHeader'));
+const DefaultFooter = React.lazy(() => import('./DefaultFooter'));
+const DefaultMobileFooter = React.lazy(() => import('./DefaultMobileFooter'));
 
 const HomeButton= () => {
     let history = useHistory();
@@ -117,9 +120,22 @@ class DefaultLayout extends Component {
                         </div>
                     </div>
                 </div>
-                <Suspense fallback={this.loading()}>
-                    <DefaultFooter></DefaultFooter>
-                </Suspense>
+                <div className="app-footer">
+                    <Suspense fallback={this.loading()}>
+                        <DefaultFooter></DefaultFooter>
+                    </Suspense>
+                </div>
+                <div className="mobile-app-footer">
+                    <Suspense fallback={this.loading()}>
+                        <DefaultMobileFooter _nav={_nav} navOn={this.props.location.pathname}></DefaultMobileFooter>
+                    </Suspense>
+                </div>
+                <div type="button" onClick={() => this.mobileSideBarEnable()} className="mobile-sidebar-btn">
+                    { this.state.mobileVisible
+                        ?<img src={hide} className="mobile-hide-icon" alt=""/>
+                        :<img src={more} alt="" />
+                    }
+                </div>
             </Container>
         )
     }

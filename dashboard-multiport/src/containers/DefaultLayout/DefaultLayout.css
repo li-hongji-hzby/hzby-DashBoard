@@ -41,3 +41,31 @@
 .breadcrumb{
   background-color: #2C2C34 !important;
 }
+
+.mobile-app-footer{
+  display: none;
+}
+
+@media(max-width:576px){
+  .app-footer{
+    display: none;
+  }
+  .mobile-app-footer{
+    display: block;
+  }
+}
+.mobile-sidebar-btn{
+  background-color: #2C2C34 !important;
+  position: fixed;
+  left: 0;
+  bottom: 100px;
+  z-index: 9999;
+  display: none;
+}
+.mobile-hide-icon{
+  height: 20px;
+}
+
+@media(max-width:576px){
+  
+}

@@ -253,8 +253,7 @@ export class index extends Component {
             <Row className="self-card-box">
               <Card className="mobile-top-divider self-card w-100">
                 <Card.Header className="self-card-header d-flex justify-content-between align-items-center" >
-                  <Badge className="p-2 h-100" variant="primary">数据列表</Badge>
-                  <Badge className="p-2 h-100" style={{"backgroundColor":this.state.labelColor}} variant="dark">{this.state.kind} / {this.state.timeRange}</Badge>
+                  <Badge className="p-2 h-100" variant="primary">数据列表 / {this.state.timeRange}</Badge>
                 </Card.Header>
                 <Card.Body className="self-card-content self-table-card" style={{ "height":this.state.clientHeight*0.89 }}>
                   <Table className="self-table global-color" striped bordered >
