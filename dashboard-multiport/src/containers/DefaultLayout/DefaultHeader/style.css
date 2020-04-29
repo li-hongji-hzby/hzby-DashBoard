@@ -33,6 +33,9 @@
   }
 }
 
+.logout-btn{
+  white-space: nowrap;
+}
 /* @media(min-width: 992px) {
   .user-box{
     padding-right: 70px !important;

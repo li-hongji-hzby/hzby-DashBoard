@@ -30,7 +30,7 @@ class index extends Component {
           <div className="d-flex justify-content-between align-items-center" >
             <div className="username-box">{this.props.user===undefined?"未登录":this.props.user}</div>
             <Image src={logo} className="header-user-icon mr-2 ml-2"  roundedCircle />
-            <Button variant="danger" size="sm" onClick={ () => this.props.logout() }>退出登录</Button>
+            <Button variant="danger" className="logout-btn" size="sm" onClick={ () => this.props.logout() }>退出登录</Button>
           </div>
         </Col>
       </Row>
