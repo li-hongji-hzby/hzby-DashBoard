@@ -69,10 +69,6 @@
 .mr-256{
     margin-right: 256px;
 }
-::-webkit-scrollbar {
-    /*隐藏滚轮*/
-    display: none !important;
-}
 
 /* 上分割线 */
 
@@ -94,4 +90,24 @@
 }
 .apexcharts-menu-item:hover{
     background-color: #988fed !important;
+}
+/* 滚动条美化 */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    border-radius: 3px;
+    background: transparent;
+    -webkit-box-shadow: transparent;
+}
+/* 滚动条滑块 */
+::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background: rgba(0,0,0,0.12);
+    -webkit-box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+}
+
+.f-05rem{
+    font-size: 0.5rem;
 }

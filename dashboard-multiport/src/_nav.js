@@ -28,7 +28,7 @@ export default [
       "children":[
         {
           "name":"空压机一号",
-          "url":"/Home/Machine",
+          "url":"/Home/History",
           "icon":realtime,
           "iconOn":realtimeOn,
         },
