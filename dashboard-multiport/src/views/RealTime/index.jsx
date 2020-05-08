@@ -3,7 +3,7 @@ import { Col, Row, Container, Card, Badge, Table } from 'react-bootstrap'
 import Axios from 'axios';
 import cookie from 'react-cookies';
 
-import './style.css'
+import style from './style.module.css'
 
 const bgColors = [ "#352B9B","#448BCD","#DF9B28","#C65757",]
 export class index extends Component {
@@ -99,7 +99,7 @@ export class index extends Component {
         <Row>
           { Object.keys(this.state.mainDatas).map((key, index) => 
             <Col lg={3} md={6} sm={6} key={index} className="d-flex justify-content-center align-items-center">
-              <Card className="self-card realtime-top-card top-divider">
+              <Card className={style.realtimeTopCard + " self-card top-divider"}>
                 <Card.Header className="d-flex justify-content-center align-items-center" style={{"backgroundColor":bgColors[index]}}>
                   <h2>{key}</h2>
                 </Card.Header>

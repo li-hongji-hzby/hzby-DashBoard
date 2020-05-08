@@ -1,8 +1,8 @@
 
-import home from './containers/DefaultLayout/DefaultMobileFooter/images/home.png'
-import homeOn from './containers/DefaultLayout/DefaultMobileFooter/images/home-on.png'
-import realtime from './containers/DefaultLayout/DefaultMobileFooter/images/realtime.png'
-import realtimeOn from './containers/DefaultLayout/DefaultMobileFooter/images/realtime-on.png'
+import home from './images/home.png'
+import homeOn from './images/home-on.png'
+import realtime from './images/realtime.png'
+import realtimeOn from './images/realtime-on.png'
 export default [
     {        
       "name":"数据概览",

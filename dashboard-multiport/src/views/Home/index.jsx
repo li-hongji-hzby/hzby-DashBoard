@@ -7,7 +7,7 @@ import cookie from 'react-cookies';
 import CardWithTitle from '../../component/LineCard/CardWithTitle'
 import { dateFormat } from '../../utils/DateUtils';
 
-import './style.css'
+import style from './style.module.css'
 
 export class index extends Component {
 
@@ -52,10 +52,7 @@ export class index extends Component {
           height: 160,
           toolbar: {
             show:true,
-            tools: {
-              download: false
-            }
-          }
+          },
         },
         dataLabels: {
           enabled: false,
@@ -250,13 +247,13 @@ export class index extends Component {
             </Row>
           </Col>
           <Col lg={3} md={6} sm={12}>
-            <Row className="self-card-box">
+            <Row className={style.selfCardBox + " top-divider"}>
               <Card className="mobile-top-divider self-card w-100">
                 <Card.Header className="self-card-header d-flex justify-content-between align-items-center" >
                   <Badge className="p-2 h-100" variant="primary">数据列表 / {this.state.timeRange}</Badge>
                 </Card.Header>
-                <Card.Body className="self-card-content self-table-card" style={{ "height":this.state.clientHeight*0.89 }}>
-                  <Table className="self-table global-color" striped bordered >
+                <Card.Body className={style.selfTableCard + " self-card-content"} style={{ "height":this.state.clientHeight*0.89 }}>
+                  <Table className={style.selfTable+" global-color"} striped bordered >
                     <thead>
                       <tr>
                         {this.state.tableDatas.labels.map((label,index) =>

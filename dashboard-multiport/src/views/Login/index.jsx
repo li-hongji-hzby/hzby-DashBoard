@@ -3,7 +3,7 @@ import cookie from 'react-cookies';
 import axios from 'axios';
 import { Image, Form } from 'react-bootstrap'
 
-import './style.css';
+import style from './style.module.css';
 
 import logo from './images/logo.png'
 import userIcon from './images/userIcon.png'
@@ -55,18 +55,18 @@ export default class index extends Component {
 
   render() {
     return (
-      <div className="login-page w-100 h-100">
-        <Form className="login-box" action="javascript:void(0);">
-          <Image className="login-logo" src={logo} fluid />
-          <div className="input-box">
-            <input className="user-input" type="text"  value={this.state.username} onChange={this.usernameChange.bind(this)}/>
-            <img className="user-icon" src={userIcon} alt=""/>
+      <div className={style.loginPage + " w-100 h-100"}>
+        <Form className={style.loginBox} action="javascript:void(0);">
+          <Image className={style.loginLogo} src={logo} fluid />
+          <div className={style.inputBox}>
+            <input className={style.userInput} type="text"  value={this.state.username} onChange={this.usernameChange.bind(this)}/>
+            <img className={style.userIcon} src={userIcon} alt=""/>
           </div>
-          <div className="input-box">
-            <input className="pwd-input" type="password" value={this.state.password} onChange={this.passwordChange.bind(this)}/>
-            <img className="user-icon" src={pwdIcon} alt=""/>
+          <div className={style.inputBox}>
+            <input className={style.pwdInput} type="password" value={this.state.password} onChange={this.passwordChange.bind(this)}/>
+            <img className={style.pwdIcon}  src={pwdIcon} alt=""/>
           </div>
-          <button type="submit" className="login-btn" onClick={() => {this.Login()}}>登录</button>
+          <button type="submit" className={style.loginBtn} onClick={() => {this.Login()}}>登录</button>
         </Form>
       </div>
     )

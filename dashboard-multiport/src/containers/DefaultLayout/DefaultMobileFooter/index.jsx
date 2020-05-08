@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import './style.css'
+import style from './DefaultMobileFooter.module.css'
 import { Link } from 'react-router-dom'
 
 export class index extends Component {
@@ -14,11 +14,11 @@ export class index extends Component {
 
   render() {
     return (
-      <div className="mobile-footer-box">
+      <div className={style.mobileFooterBox}>
         { this.props._nav.map((key, index) =>
           key.mainNav ? 
           <Link key={index} to={key.url}>
-            <img src={this.props.navOn === key.url ? key.iconOn : key.icon } alt="" className="mobile-nav-icon" />
+            <img src={this.props.navOn === key.url ? key.iconOn : key.icon } alt="" className={style.mobileNavIcon} />
           </Link>
           :null
         )}

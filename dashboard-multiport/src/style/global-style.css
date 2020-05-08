@@ -87,3 +87,11 @@
         margin-top: 10px;
     }
 }
+
+/* apexcharts tools 样式 */
+.apexcharts-menu{
+    background-color: #23242D !important;
+}
+.apexcharts-menu-item:hover{
+    background-color: #988fed !important;
+}

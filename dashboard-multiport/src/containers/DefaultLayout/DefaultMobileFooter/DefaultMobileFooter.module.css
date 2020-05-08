@@ -1,4 +1,4 @@
-.mobile-footer-box{
+.mobileFooterBox{
   width: 100%;
   height: 45px;
   display: flex;
@@ -6,7 +6,7 @@
   align-items: center;
 }
 
-.mobile-nav-icon{
+.mobileNavIcon{
   width: 25px;
   height: 25px;
 }
