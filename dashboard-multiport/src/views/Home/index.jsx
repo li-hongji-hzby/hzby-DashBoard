@@ -19,6 +19,10 @@ export class index extends Component {
       kind:'电',
       labelColor:"#352B9B",
       clientHeight:document.body.clientHeight-2*56-49,
+      avgData:[],
+      metrics:["active_power","flowrate"],
+      downsample: "1h",
+      timestamp: Date.parse(new Date()) - 86400 *30,
       cardDatas: [
         {
           'kind': "电",
@@ -97,7 +101,7 @@ export class index extends Component {
     })
     this.intervalId = setInterval(() => {
       this.getWeekDatas()
-    }, 60*1000);
+    }, 5*1000);
   }
 
   componentWillUnmount(){
@@ -108,8 +112,12 @@ export class index extends Component {
 
   // 获取三个副图表数据
   getWeekDatas = () => {
-    Axios.get("/Summary5min/getNewestLimit?limit=12").then(res => {
-      let result = res.data
+    Axios.post("/Home/getHoursAgo",{
+      hour:1,
+      metrics:["active_power","flowrate"]
+    }).then(res => {
+      // console.log(res.data)
+      let result = res.data.datas
       // console.log(result);
       let labels = []
       let elects = []
@@ -129,7 +137,8 @@ export class index extends Component {
       newData[2]['datas'] = units
       newData[2]['labels'] = labels
       this.setState({
-        cardDatas: newData
+        cardDatas: newData,
+        avgData: [res.data.avgData["electricity"],res.data.avgData["air"],res.data.avgData["unitCost"]]
       })
     }).catch(err => {
       console.log(err);
@@ -140,24 +149,37 @@ export class index extends Component {
   // 获取表格及主图表数据
   getMainDatas = async (range) =>{
     var _that = this
-    let url = ""
+    let url = "/Home/getMainChartData"
+    let timestamp;
+    let downsample;
     switch(range){
       case '月':
-        url = "/SummaryDay/getNewestLimit?limit=30"
+        timestamp = parseInt((Date.parse(new Date()))/1000 - 86400 *30)
+        downsample = "1dc"
         break;
       case '日':
-        url = "/SummaryHour/getNewestLimit?limit=24"
+        timestamp = parseInt((Date.parse(new Date()))/1000 - 86400 *2)
+        downsample = "1hc"
         break
       case '年':
-        url = "/SummaryMonth/getNewestLimit?limit=24"
+        timestamp = parseInt((Date.parse(new Date()))/1000 - 86400 *30 * 24)
+        downsample = "1nc"
         break
       default:
-        url = "/SummaryDay/getNewestLimit?limit=30"
+        timestamp = parseInt((Date.parse(new Date()))/1000 - 86400 *30)
+        downsample = "1dc"
     } 
-    let resData = await Axios.get(url).then(res =>{
+    // console.log(timestamp)
+    // console.log(downsample)
+    let resData = await Axios.post(url, {
+      timestamp: timestamp,
+      downsample: downsample,
+      metrics: this.state.metrics
+    }).then(res =>{
+      console.log(res.data)
       return res.data
     }).catch(err => {
-      console.log("=============getMainDatas==============")
+      // console.log("=============getMainDatas==============")
       // console.log(err.response.status);
       console.log(err);
       this.props.history.push('/Login')
@@ -224,7 +246,7 @@ export class index extends Component {
             <Row>
               {this.state.cardDatas.map((key, index) =>
                 <Col lg={4} md={12} sm={12} key={index} className="top-divider d-flex justify-content-center align-items-center" onClick={()=>{ this.changeKind(key.kind,key.bgColor) }}>
-                  <CardWithTitle kind={key.kind} bgColor={key.bgColor} unit={key.unit} mainChart={key.mainChart} datas={key.datas} labels={key.labels}></CardWithTitle>
+                  <CardWithTitle avgData={this.state.avgData[index]} kind={key.kind} bgColor={key.bgColor} unit={key.unit} mainChart={key.mainChart} datas={key.datas} labels={key.labels}></CardWithTitle>
                 </Col>
               )}
             </Row>

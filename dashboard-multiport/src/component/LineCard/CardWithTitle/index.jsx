@@ -87,7 +87,7 @@ class index extends Component {
               <Chart options={this.state.options} series={this.state.series} type="line" height={this.state.clientHeight *0.15}></Chart>
               <div className="d-flex justify-content-center align-items-center w-100 h-100" style={{"position":"absolute","top":'0',"left":"0"}}>
                 <div className="d-flex justify-content-center align-items-baseline">
-                  <h1 className="card-num">{this.props.datas[this.props.datas.length-1]}</h1>
+                  <h1 className="card-num">{this.props.avgData}</h1>
                   <h3 className="card-unit">{this.props.unit}</h3>
                 </div>
               </div>

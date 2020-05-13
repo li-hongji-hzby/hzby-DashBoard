@@ -31,7 +31,7 @@ export class index extends Component {
       },
       tableDatas:{
         "空压机":{    
-          "labels":['机器','状态','出口压力','功率',"频率","排气温度"],
+          "labels":['机器','状态','出口压力','功率',"频率"],
           "datas":[]
         },
         "干燥机":{    
@@ -83,8 +83,10 @@ export class index extends Component {
       newData[i]['datas'] = arr
     }
     let newMainDatas = this.state.mainDatas
-    for(let i in result['realtimeOverview']){
-      newMainDatas[result['realtimeOverview'][i]['property']]['data'] = result['realtimeOverview'][i]['value']
+    if(result["change"]){
+      for(let i in result['realtimeOverview']){
+        newMainDatas[i]["data"]= result['realtimeOverview'][i]
+      }
     }
     this.setState({
       tableDatas:newData,

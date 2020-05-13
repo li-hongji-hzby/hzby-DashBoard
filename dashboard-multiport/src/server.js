@@ -9,7 +9,7 @@ axios.defaults.withCredentials = true; // 携带cookie
 // 请求前拦截
 axios.interceptors.request.use(
   config => {
-    // console.log(config)
+    console.log(config)
     config['url'] = base + config['url']
     return config;
   },
