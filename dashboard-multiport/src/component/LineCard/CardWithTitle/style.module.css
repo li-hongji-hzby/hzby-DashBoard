@@ -1,36 +1,36 @@
-.card-num{
+.cardNum{
   font-size: 2.5vw;
 }
-.card-unit{
+.cardUnit{
   font-size: 1.5vw;
   padding:5px;
 }
 
-.card-box{
+.cardBox{
   box-shadow:none;
   width: 90%;
 }
 
 @media(max-width:992px){
-  .card-num{
+  .cardNum{
     font-size: 70px !important;
     font-weight: 600;
   }
-  .card-unit{
+  .cardUnit{
     font-size: 25px !important;
     padding:5px;
     font-weight: 600;
   }
-  .card-box{
+  .cardBox{
     width: 100%;
   }
 }
 @media(max-width:576px){
-  .card-num{
+  .cardNum{
     font-size: 12vw !important;
     font-weight: 600;
   }
-  .card-unit{
+  .cardUnit{
     font-size: 6vw !important;
     padding:5px;
     font-weight: 600;

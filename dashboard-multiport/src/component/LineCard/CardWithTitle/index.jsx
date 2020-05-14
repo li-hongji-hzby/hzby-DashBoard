@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 // import { Line } from 'react-chartjs-2';
 import { Card } from 'react-bootstrap'
 import Chart from "react-apexcharts";
-import './style.css'
+import style from './style.module.css'
 
 
 class index extends Component {
@@ -79,7 +79,7 @@ class index extends Component {
 
   render() {
     return (
-        <Card className="card-box" style={{"backgroundColor": this.props.bgColor}}>
+        <Card className={style.cardBox} style={{"backgroundColor": this.props.bgColor}}>
           <Card.Header className="d-flex justify-content-center align-items-center" >
             {this.state.kind}
           </Card.Header>
@@ -87,8 +87,8 @@ class index extends Component {
               <Chart options={this.state.options} series={this.state.series} type="line" height={this.state.clientHeight *0.15}></Chart>
               <div className="d-flex justify-content-center align-items-center w-100 h-100" style={{"position":"absolute","top":'0',"left":"0"}}>
                 <div className="d-flex justify-content-center align-items-baseline">
-                  <h1 className="card-num">{this.props.avgData}</h1>
-                  <h3 className="card-unit">{this.props.unit}</h3>
+                  <h1 className={style.cardNum}>{this.props.avgData}</h1>
+                  <h3 className={style.cardUnit}>{this.props.unit}</h3>
                 </div>
               </div>
           </Card.Body>
