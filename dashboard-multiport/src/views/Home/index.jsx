@@ -176,7 +176,7 @@ export class index extends Component {
       downsample: downsample,
       metrics: this.state.metrics
     }).then(res =>{
-      console.log(res.data)
+      // console.log(res.data)
       return res.data
     }).catch(err => {
       // console.log("=============getMainDatas==============")
