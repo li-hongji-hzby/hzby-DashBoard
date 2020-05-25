@@ -154,28 +154,20 @@ export class index extends Component {
     let downsample;
     switch(range){
       case '月':
-        timestamp = parseInt((Date.parse(new Date()))/1000 - 86400 *30)
-        downsample = "1dc"
+        url = "/Home/getDaysData"
         break;
       case '日':
-        timestamp = parseInt((Date.parse(new Date()))/1000 - 86400 *2)
-        downsample = "1hc"
+        url = "/Home/getHoursData"
         break
       case '年':
-        timestamp = parseInt((Date.parse(new Date()))/1000 - 86400 *30 * 24)
-        downsample = "1nc"
+        url = "/Home/getMonthsData"
         break
       default:
-        timestamp = parseInt((Date.parse(new Date()))/1000 - 86400 *30)
-        downsample = "1dc"
+        url = "/Home/getDaysData"
     } 
     // console.log(timestamp)
     // console.log(downsample)
-    let resData = await Axios.post(url, {
-      timestamp: timestamp,
-      downsample: downsample,
-      metrics: this.state.metrics
-    }).then(res =>{
+    let resData = await Axios.get(url).then(res =>{
       // console.log(res.data)
       return res.data
     }).catch(err => {
