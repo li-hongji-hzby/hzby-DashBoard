@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Col, Row, Container, Image, Card } from 'react-bootstrap'
+import { Col, Row, Container, Image } from 'react-bootstrap'
 import GroupLine from '../../component/LineCard/GroupLine'
 import Axios from 'axios';
 

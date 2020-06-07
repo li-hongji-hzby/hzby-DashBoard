@@ -63,8 +63,10 @@ class DefaultLayout extends Component {
 
 
     logout = () => {
-        cookie.remove("userMsg",{ path: '/' })
-        cookie.remove("user",{ path: '/' })
+        // cookie.remove("userMsg",{ path: '/' })
+        // cookie.remove("user",{ path: '/' })
+        // 
+        localStorage.clear();
         this.setState({
             user:undefined,
         })

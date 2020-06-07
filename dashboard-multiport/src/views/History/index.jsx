@@ -66,8 +66,9 @@ export class index extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      machineList:{},
       machineKindList:[],
-      machineKind:'',
+      machineName:'远洋流量计一号',
       startTime:new Date(new Date().getTime() - 24*60*60*1000),
       endTime:new Date(),
       attributeList:[],
@@ -77,25 +78,13 @@ export class index extends Component {
       chartDatas:[],
     }
   }
-  getMachines = async () => {
-    await Axios.get("/Machine/listAllWithAttributes").then(res =>{
-      this.setState({
-        machineKindList:res.data,
-        machineKind:res.data[0]['machineNameCn'],
-        device:res.data[0]['machineNameEn'],
-        attributeList:Object.values(res.data[0]['attributeList']),
-      })
-    }).catch(err => {
-      console.log(err);
-    })
-  }  
 
 
-  changeMachineKind = (kind,device,attributeList) => {
+
+
+  changeMachineName = (name) => {
     this.setState({
-      machineKind:kind,
-      device:device,
-      attributeList:attributeList
+      machineName:name
     })
   }
 
@@ -106,20 +95,23 @@ export class index extends Component {
     })
   }
 
+
+
+
   // 查询数据
   getMachineData =async () => {
+    let machineName =this.state.machineName
     let resData = await Axios.post("/History/getHistory", {
       startTime:parseInt(Date.parse(this.state.startTime)/1000),
       endTime:parseInt(Date.parse(this.state.endTime)/1000),
-      device:this.state.device,
+      device:this.state.machineList[machineName]['machineNameEn'],
       downsample:this.state.downsample +'-avg',
-      metrics:this.state.attributeList,
+      metrics:this.state.machineList[machineName]['attributeList'],
     }).then(res =>{
       return res.data
     }).catch(err => {
       console.log(err);
     })
-    console.log(resData)
     let newChartDatas = []
     for(let i in resData){
       let newSeries = JSON.parse(JSON.stringify(chartSeries))
@@ -135,11 +127,29 @@ export class index extends Component {
     })
   }
 
+
   componentDidMount(){
-    this.getMachines().then(() => {this.getMachineData()})
     if(cookie.load('userMsg') === undefined){
       this.props.history.push('/Login')
     }
+    // 获取localStorage数据并进进行处理
+    let histPage = JSON.parse(localStorage.getItem("historyPage"))
+    let machineList = JSON.parse(JSON.stringify(this.state.machineList))
+    histPage.map( e => {
+      machineList[e["machineNameZh"]]={}
+      machineList[e["machineNameZh"]]["machineNameEn"] = e["machineNameEn"]
+      machineList[e["machineNameZh"]]["attributeList"] = {}
+      let attrList = JSON.parse(e["attributeList"])
+      attrList.map( attr => {
+        machineList[e["machineNameZh"]]["attributeList"][attr["attributeNameEn"]]=attr["attributeNameCn"]
+      })
+    })
+    this.setState({
+      machineName:histPage[0]["machineNameZh"],
+      machineList:machineList
+    },() => {
+      this.getMachineData()
+    })
   }
 
   render() {
@@ -154,11 +164,10 @@ export class index extends Component {
               </Badge>
             </Card.Header>
             <Card.Body className=" self-card-content">
-                {Object.keys(this.state.machineKindList).map((key, index) => 
+                {this.state.machineList && Object.keys(this.state.machineList).map((key, index) => 
                   <Button className={style.machineBtn + " mr-2 mobile-top-divider"} key={index} variant="info"
-                    onClick={() => this.changeMachineKind(this.state.machineKindList[key]['machineNameCn'],this.state.machineKindList[key]['machineNameEn'],Object.values(this.state.machineKindList[key]['attributeList']))} 
-                  >
-                    {this.state.machineKindList[key]['machineNameCn']}
+                    onClick={ () => this.changeMachineName(key)}
+                  >{key}
                   </Button>
                 )}
             </Card.Body>
@@ -169,7 +178,7 @@ export class index extends Component {
             <Card.Header className="d-flex justify-content-start align-items-center self-card-header flex-wrap">
               <Badge className="p-2 h-100 d-flex justify-content-center align-items-center" variant="primary">
                 <Image src={machineImg} className={style.cardIcon}></Image>
-                {this.state.machineKind}
+                {this.state.machineName}
               </Badge>
               <div className="d-flex mobile-top-divider">
                 <Badge className={style.selectTimeLabel+" ml-5 mr-2 p-2"} variant="primary">
@@ -211,7 +220,7 @@ export class index extends Component {
             </Card.Header>
             <Card.Body className="self-card-content pr-5" style={{ "position": "relative" }}>
               { this.state.chartDatas.map((key,index) =>
-                <Chart key={index} options={key.Options} series={key.Series} type="area" height="350"/>
+                  <Chart key={index} options={key.Options} series={key.Series} type="area" height="350"/>
               )}
             </Card.Body>
           </Card>

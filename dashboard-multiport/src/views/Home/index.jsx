@@ -20,30 +20,30 @@ export class index extends Component {
       labelColor:"#352B9B",
       clientHeight:document.body.clientHeight-2*56-49,
       avgData:[],
-      metrics:["active_power","flowrate"],
-      downsample: "1h",
-      timestamp: Date.parse(new Date()) - 86400 *30,
       cardDatas: [
         {
           'kind': "电",
           "bgColor": "#352B9B",
           "datas": [],
           "labels": [],
-          "unit": "kW"
+          "unit": "kWh",
+          "summary":0
         },
         {
           'kind': "气",
           "bgColor": "#448BCD",
           "datas": [],
           "labels": [],
-          "unit": "m³/min"
+          "unit": "m³",
+          "summary":0
         },
         {
           'kind': "单耗",
           "bgColor": "#C65757",
           "datas": [],
           "labels": [],
-          "unit": "kWh/m³"
+          "unit": "kWh/m³",
+          "summary":0
         },
       ],
       mainSeries: [{
@@ -51,7 +51,7 @@ export class index extends Component {
         data: [],
       }],
       mainOptions: {
-        chart: {
+        chart: { 
           type: 'area',
           height: 160,
           toolbar: {
@@ -64,7 +64,7 @@ export class index extends Component {
         grid: {
           show: true,
           borderColor: 'rgba(0,0,0,0.1)'
-        },
+        }, 
         stroke: {
           curve: 'smooth'
         },
@@ -72,7 +72,7 @@ export class index extends Component {
           type: 'datetime',
           categories: []
         },
-        yaxis: {
+        yaxis: { 
           borderColor: 'rgba(255,255,255,0.1)',
           show: true,
         },
@@ -91,7 +91,6 @@ export class index extends Component {
   }
 
   componentDidMount = () => {
-    // console.log(this.state.clientHeight)
     if(cookie.load('userMsg') === undefined){
       this.props.history.push('/Login')
     }
@@ -102,6 +101,7 @@ export class index extends Component {
     this.intervalId = setInterval(() => {
       this.getWeekDatas()
     }, 5*1000);
+    this.getSummaryData()
   }
 
   componentWillUnmount(){
@@ -116,9 +116,7 @@ export class index extends Component {
       hour:1,
       metrics:["active_power","flowrate"]
     }).then(res => {
-      // console.log(res.data)
       let result = res.data.datas
-      // console.log(result);
       let labels = []
       let elects = []
       let airs = []
@@ -146,44 +144,74 @@ export class index extends Component {
     })
   }
 
+  getSummaryData = async () => {
+    let res = await Axios.post("/Home/getSummaryData",{
+      project:cookie.load('project')
+    }).then(res => {
+      console.log(res.data)
+      return res.data
+    })
+    let newCardData = JSON.parse(JSON.stringify(this.state.cardDatas))
+    Object.keys(newCardData).map( e => {
+      newCardData[e]['summary'] = res[newCardData[e]['kind']]
+    })
+    this.setState({
+      cardDatas:newCardData
+    })
+  }
+
   // 获取表格及主图表数据
   getMainDatas = async (range) =>{
     var _that = this
     let url = "/Home/getMainChartData"
-    let timestamp;
-    let downsample;
+    let kind = ""
     switch(range){
       case '月':
         url = "/Home/getDaysData"
+        kind = "月"
         break;
       case '日':
         url = "/Home/getHoursData"
+        kind = "日"
         break
       case '年':
         url = "/Home/getMonthsData"
+        kind = "年"
         break
       default:
         url = "/Home/getDaysData"
+        kind = "月"
     } 
-    // console.log(timestamp)
-    // console.log(downsample)
-    let resData = await Axios.get(url).then(res =>{
-      // console.log(res.data)
+    let resData = await Axios.post(url,{
+      project:cookie.load('project')
+    }).then(res =>{
       return res.data
     }).catch(err => {
-      // console.log("=============getMainDatas==============")
-      // console.log(err.response.status);
       console.log(err);
       this.props.history.push('/Login')
       return []
     })
     let newTableDatas = this.state.tableDatas
-    // console.log(resData)
     newTableDatas['datas'] = resData
+    for(let i in newTableDatas['datas']){
+      switch(kind){
+        case "日":
+          newTableDatas['datas'][i]['electricity'] = newTableDatas['datas'][i]['electricity']
+          newTableDatas['datas'][i]['air'] = newTableDatas['datas'][i]['air']*60
+          break;
+        case "月":
+          newTableDatas['datas'][i]['electricity'] = newTableDatas['datas'][i]['electricity']*24
+          newTableDatas['datas'][i]['air'] = newTableDatas['datas'][i]['air']*60*24
+          break;
+        case "年":
+          newTableDatas['datas'][i]['electricity'] = newTableDatas['datas'][i]['electricity']*30*24
+          newTableDatas['datas'][i]['air'] = newTableDatas['datas'][i]['air']*60*24*30
+          break;
+      }
+    }
     _that.setState({
       tableDatas:newTableDatas
     })
-    // console.log(_that.state.tableDatas)
   }
 
   intervalId 
@@ -238,7 +266,7 @@ export class index extends Component {
             <Row>
               {this.state.cardDatas.map((key, index) =>
                 <Col lg={4} md={12} sm={12} key={index} className="top-divider d-flex justify-content-center align-items-center" onClick={()=>{ this.changeKind(key.kind,key.bgColor) }}>
-                  <CardWithTitle avgData={this.state.avgData[index]} kind={key.kind} bgColor={key.bgColor} unit={key.unit} mainChart={key.mainChart} datas={key.datas} labels={key.labels}></CardWithTitle>
+                  <CardWithTitle avgData={key.summary} kind={key.kind} bgColor={key.bgColor} unit={key.unit} mainChart={key.mainChart} datas={key.datas} labels={key.labels}></CardWithTitle>
                 </Col>
               )}
             </Row>

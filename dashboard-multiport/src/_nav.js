@@ -22,23 +22,11 @@ export default [
     },
     {        
       "name":"历史数据",
-      "url":"/",
+      "url":"/Home/History",
       "icon":realtime,
       "iconOn":realtimeOn,
-      "children":[
-        {
-          "name":"空压机一号",
-          "url":"/Home/History",
-          "icon":realtime,
-          "iconOn":realtimeOn,
-        },
-        {
-          "name":"空压机二号",
-          "url":"/Home/Marchine",
-          "icon":realtime,
-          "iconOn":realtimeOn,
-        },
-      ]
+      "mainNav":true,
+      "children":[]
     },
     {        
       "name":"异步图表",

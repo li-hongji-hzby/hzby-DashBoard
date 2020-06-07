@@ -6,11 +6,16 @@ import cookie from 'react-cookies';
 import style from './style.module.css'
 
 const bgColors = [ "#352B9B","#448BCD","#DF9B28","#C65757",]
+
+
+
+
 export class index extends Component {
 
   constructor(props) {
     super(props)
     this.state = {
+      tableMsg:[],
       mainDatas:{
         "流量":{
           "data":"",
@@ -30,32 +35,47 @@ export class index extends Component {
         },
       },
       tableDatas:{
-        "空压机":{    
-          "labels":['机器','状态','出口压力','功率',"频率"],
-          "datas":[]
-        },
-        "干燥机":{    
-          "labels":['机器','状态','压力','功率',"露点"],
-          "datas":[]
-        },
-        "流量计":{
-          "labels":['机器','状态','流量'],
-          "datas":[]
-        }
       }
     }
+    // console.log(cookie.load("pageConfig")['historyPage'])
   }
 
-  
   intervalId 
-
+  
   componentDidMount() {
     if(cookie.load('userMsg') === undefined){
       this.props.history.push('/Login')
+    } 
+    // 获取localStorage数据并进进行处理
+    let tableMsg = {}
+    let realPage = JSON.parse(localStorage.getItem("realtimePage"))
+    let tableDatas = JSON.parse(JSON.stringify(this.state.tableDatas))
+    console.log(realPage)
+    for(let i in realPage){
+      tableMsg[i]={}
+      tableMsg[i]["attributes"]={}
+      tableMsg[i]['machines']={}
+      tableDatas[i] = {}
+      tableDatas[i]["labels"] = ["机器","状态"]
+      JSON.parse(realPage[i][0]['attributeList']).map(e => {
+        console.log(e)
+        tableMsg[i]["attributes"][e["attributeNameCn"]]=e["attributeNameEn"]
+        tableDatas[i]["labels"].push(e["attributeNameCn"])
+        return 0
+      })
+      Object.keys(realPage[i]).map( e => {
+        tableMsg[i]['machines'][realPage[i][e]["machineNameZh"]]=realPage[i][e]["machineNameEn"]
+        return 0
+      })
     }
-    this.getTableDatas()
+    this.setState({
+      tableMsg:tableMsg,
+      tableDatas:tableDatas
+    })
+    this.getTableDatas(tableMsg)
     this.intervalId = setInterval(() => {
-      this.getTableDatas()
+      this.getSummary()
+      this.getTableDatas(tableMsg)
     }, 10*1000);
   }
 
@@ -65,34 +85,53 @@ export class index extends Component {
     }
   }
 
-  getTableDatas = async () => {
-    let result = await Axios.get("/RealTime/listRealTimeDatas").then(res =>{
+  getTableDatas = async ( tableMsg ) => {
+    console.log(tableMsg)
+    let result = await Axios.post("/RealTime/listRealTimeDatas",{
+      tableMsg:tableMsg,
+      project:cookie.load('project')
+    }).then(res =>{
       return res.data
     }).catch(err => {
       console.log(err)
       this.props.history.push('/Login')
       return {}
     })
-    // console.log(result)
-    let newData = this.state.tableDatas
-    for(let i in result['realTimeDatas']){
-      let arr=[]
-      for(let j in result['realTimeDatas'][i]){
-        arr.push(Object.values(result['realTimeDatas'][i][j]))
+    console.log(result)
+    let newData = JSON.parse(JSON.stringify(this.state.tableDatas))
+    Object.keys(result).map( e => {
+      newData[e]["datas"]=[]
+      for(let item in result[e]){
+        let getDataArr = []
+        Object.values(result[e][item]).map( e => getDataArr.push(e))
+        newData[e]["datas"].push(getDataArr)
       }
-      newData[i]['datas'] = arr
-    }
-    let newMainDatas = this.state.mainDatas
-    if(result["change"]){
-      for(let i in result['realtimeOverview']){
-        newMainDatas[i]["data"]= result['realtimeOverview'][i]
-      }
-    }
+      return 0
+    })
     this.setState({
-      tableDatas:newData,
-      mainDatas:newMainDatas
+      tableDatas:newData
     })
     // console.log(newData)
+  }
+
+  getSummary = async () => {
+    let result = await Axios.post("/RealTime/getRealtimeSummary",{
+      project:cookie.load('project')
+    }).then(res =>{
+      return res.data
+    }).catch(err => {
+      console.log(err)
+      this.props.history.push('/Login')
+      return {}
+    })
+    let newMainDatas = JSON.parse(JSON.stringify(this.state.mainDatas))
+    Object.keys(result).map( e => {
+      newMainDatas[e]["data"] = result[e]
+    })
+    this.setState({
+      mainDatas:newMainDatas
+    })
+    
   }
 
   render() {
@@ -106,7 +145,7 @@ export class index extends Component {
                   <h2>{key}</h2>
                 </Card.Header>
                 <Card.Body className="self-card-content d-flex justify-content-center align-items-center" style={{ "position": "relative" }}>
-                  <h2>{this.state.mainDatas[key]['data']}</h2>
+                  <h2>{ (parseFloat(this.state.mainDatas[key]['data'])).toFixed(2) }</h2>
                   <h3 style={{"padding":"5px"}}>{this.state.mainDatas[key]['unit']}</h3>
                 </Card.Body>
               </Card>
@@ -121,21 +160,21 @@ export class index extends Component {
               </Card.Header>
               <Card.Body className=" self-card-content">
                 <Table className="self-table global-color" striped bordered>
-                  <thead>  
+                  <thead>
                     <tr>
-                      {this.state.tableDatas[key].labels.map((label, index) =>
+                      { this.state.tableDatas[key].labels.map((label, index) =>
                           <th key={index}>{label}</th>
                       )}
                     </tr>
                   </thead>
                   <tbody>
-                      {this.state.tableDatas[key].datas.map((data, index) =>
+                      {this.state.tableDatas[key]["datas"] && this.state.tableDatas[key]["datas"].map((data, index) =>
                         <tr key={index}>
-                          {data.map((msg, index) => 
-                              typeof(msg) == 'boolean'
-                              ? (<td key={index} ><div style={{"height":"15px","width":"15px","borderRadius":"50%","backgroundColor":msg?"green":"red"}}></div></td> )
-                              : (<td key={index} >{ msg }</td> )
-                          )}
+                        { data.map((msg, index) => 
+                            typeof(msg) == 'boolean' 
+                            ? (<td key={index} ><div style={{"height":"15px","width":"15px","borderRadius":"50%","backgroundColor":msg?"green":"red"}}></div></td> )
+                            : (<td key={index} >{ msg }</td> )
+                        )}
                         </tr>
                       )}
                   </tbody>

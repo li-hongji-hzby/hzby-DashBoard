@@ -47,16 +47,30 @@ export default class index extends Component {
     let msg = JSON.parse(resMsg['msg'])
     cookie.remove("userMsg",{ path: '/' })
     cookie.remove("user",{ path: '/' })
+    cookie.remove("project",{ path: '/' })
+    localStorage.clear();
     cookie.save("userMsg", msg['jwt'],{maxAge: 1000*60*2880})
     cookie.save("user", msg['user'],{maxAge: 1000*60*2880})
+    cookie.save("project", msg['project'],{maxAge: 1000*60*2880})
+    window.localStorage.setItem("realtimePage",JSON.stringify(msg['pageConfig']['realtimePage']));
+    window.localStorage.setItem("historyPage",JSON.stringify(msg['pageConfig']['historyPage']));
+    // cookie.save("realtimePage", msg['pageConfig']['realtimePage'],{maxAge: 1000*60*2880})
+    // cookie.save("historyPage", msg['pageConfig']['historyPage'],{maxAge: 1000*60*2880})
     this.props.history.push('/Home')
     
+  }
+
+  componentDidMount(){
+    cookie.remove("userMsg",{ path: '/' })
+    cookie.remove("user",{ path: '/' })
+    cookie.remove("project",{ path: '/' })
+    localStorage.clear();
   }
 
   render() {
     return (
       <div className={style.loginPage + " w-100 h-100"}>
-        <Form className={style.loginBox} action="javascript:void(0);">
+        <Form className={style.loginBox} action="javascript:;">
           <Image className={style.loginLogo} src={logo} fluid />
           <div className={style.inputBox}>
             <input className={style.userInput} type="text"  value={this.state.username} onChange={this.usernameChange.bind(this)}/>
