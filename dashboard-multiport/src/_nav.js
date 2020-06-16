@@ -4,7 +4,7 @@ import homeOn from './images/home-on.png'
 import realtime from './images/realtime.png'
 import realtimeOn from './images/realtime-on.png'
 export default [
-    {        
+    {
       "name":"数据概览",
       "url":"/Home",
       "icon":home,
@@ -12,7 +12,7 @@ export default [
       "mainNav":true,
       "children":[]
     },
-    {        
+    {
       "name":"实时数据",
       "url":"/Home/RealTime",
       "icon":realtime,
@@ -20,7 +20,7 @@ export default [
       "mainNav":true,
       "children":[]
     },
-    {        
+    {
       "name":"历史数据",
       "url":"/Home/History",
       "icon":realtime,
@@ -28,7 +28,7 @@ export default [
       "mainNav":true,
       "children":[]
     },
-    {        
+    {
       "name":"异步图表",
       "url":"/Home/SyncCharts",
       "icon":realtime,
