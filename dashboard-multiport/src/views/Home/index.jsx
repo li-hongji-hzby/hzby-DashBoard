@@ -70,6 +70,9 @@ export class index extends Component {
         },
         xaxis: {
           type: 'datetime',
+          labels:{
+            datetimeUTC: false
+          },
           categories: []
         },
         yaxis: { 
@@ -235,18 +238,22 @@ export class index extends Component {
     let datas = []
     for(let i in this.state.tableDatas.datas){
       datas.push(this.state.tableDatas.datas[i][dataKind])
-      labels.push(dateFormat("YY/mm/dd HH:MM",new Date(this.state.tableDatas.datas[i]['timestamp']*1000)))
+      labels.push(this.state.tableDatas.datas[i]['timestamp']*1000)
+      console.log(this.state.tableDatas.datas[i]['timestamp'])
     }
+    console.log(this.state.tableDatas.datas)
     let newMainSeries = JSON.parse(JSON.stringify(this.state.mainSeries))
     newMainSeries[0]['data'] = datas
     let newMainOptions = JSON.parse(JSON.stringify(this.state.mainOptions))
     newMainOptions['xaxis']['categories'] = labels
+    console.log(labels)
     this.setState({
       mainSeries:newMainSeries,
       mainOptions:newMainOptions,
       kind:kind,
       labelColor:color
     })
+    console.log(newMainOptions['xaxis']['categories'])
   }
   changeTime = (range,format) => {
     this.getMainDatas(range).then(()=>{
