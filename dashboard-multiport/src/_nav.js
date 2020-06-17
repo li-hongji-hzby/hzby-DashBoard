@@ -28,12 +28,12 @@ export default [
       "mainNav":true,
       "children":[]
     },
-    {
-      "name":"异步图表",
-      "url":"/Home/SyncCharts",
-      "icon":realtime,
-      "iconOn":realtimeOn,
-      "mainNav":true,
-      "children":[]
-    },
+    // {
+    //   "name":"异步图表",
+    //   "url":"/Home/SyncCharts",
+    //   "icon":realtime,
+    //   "iconOn":realtimeOn,
+    //   "mainNav":true,
+    //   "children":[]
+    // },
   ]
