@@ -71,13 +71,23 @@ export class index extends Component {
         xaxis: {
           type: 'datetime',
           labels:{
-            datetimeUTC: false
+            datetimeUTC: false,
+            style: {
+              colors: "white",
+              fontSize: '14px',
+            },
           },
           categories: []
         },
         yaxis: { 
           borderColor: 'rgba(255,255,255,0.1)',
           show: true,
+          labels:{
+            style: {
+              colors: "white",
+              fontSize: '14px',
+            },
+          }
         },
         tooltip: {
           x: {
@@ -87,7 +97,7 @@ export class index extends Component {
         },
       },
       tableDatas:{
-        labels:['时间','电','气','单耗'],
+        labels:['时间','电(kWh)','气(m³)','单耗(kWh/m³)'],
         datas:[]
       }
     }
