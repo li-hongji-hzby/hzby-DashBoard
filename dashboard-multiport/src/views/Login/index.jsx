@@ -70,7 +70,7 @@ export default class index extends Component {
   render() {
     return (
       <div className={style.loginPage + " w-100 h-100"}>
-        <Form className={style.loginBox} action="javascript:;">
+        <Form className={style.loginBox} action="javascript:void();">
           <Image className={style.loginLogo} src={logo} fluid />
           <div className={style.inputBox}>
             <input className={style.userInput} type="text"  value={this.state.username} onChange={this.usernameChange.bind(this)}/>

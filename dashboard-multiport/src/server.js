@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Component } from "react";
 
-let base = "http://139.196.28.123/API";
+let base = "http://localhost:8080";
 // http://139.196.28.123/API
 // http://localhost:8080
 

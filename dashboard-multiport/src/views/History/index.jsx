@@ -142,7 +142,9 @@ export class index extends Component {
       let attrList = JSON.parse(e["attributeList"])
       attrList.map( attr => {
         machineList[e["machineNameZh"]]["attributeList"][attr["attributeNameEn"]]=attr["attributeNameCn"]
+        return null
       })
+      return null
     })
     this.setState({
       machineName:histPage[0]["machineNameZh"],
@@ -160,7 +162,7 @@ export class index extends Component {
             <Card.Header className="d-flex justify-content-start align-items-center self-card-header">
               <Badge className="p-2 h-100 d-flex justify-content-center align-items-center" variant="primary">
                 <Image src={machinesImg} className={style.cardIcon}></Image>
-                机器列表
+                设备列表
               </Badge>
             </Card.Header>
             <Card.Body className=" self-card-content">

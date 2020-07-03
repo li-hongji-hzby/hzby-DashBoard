@@ -87,10 +87,12 @@ export class index extends Component {
 
   getTableDatas = async ( tableMsg ) => {
     console.log(tableMsg)
-    let result = await Axios.post("/RealTime/listRealTimeDatas",{
+    let result = await Axios.post("/RealTime/listRealTimeDatasCache",{
       tableMsg:tableMsg,
       project:cookie.load('project')
     }).then(res =>{
+      console.log("====================")
+      console.log(res.data)
       return res.data
     }).catch(err => {
       console.log(err)
@@ -127,6 +129,7 @@ export class index extends Component {
     let newMainDatas = JSON.parse(JSON.stringify(this.state.mainDatas))
     Object.keys(result).map( e => {
       newMainDatas[e]["data"] = result[e]
+      return null
     })
     this.setState({
       mainDatas:newMainDatas
@@ -168,12 +171,13 @@ export class index extends Component {
                     </tr>
                   </thead>
                   <tbody>
-                      {this.state.tableDatas[key]["datas"] && this.state.tableDatas[key]["datas"].map((data, index) =>
+                      {this.state.tableDatas[key]["datas"] && Object.keys(this.state.tableDatas[key]["datas"]).map((data, index) =>
                         <tr key={index}>
-                        { data.map((msg, index) => 
-                            typeof(msg) == 'boolean' 
-                            ? (<td key={index} ><div style={{"height":"15px","width":"15px","borderRadius":"50%","backgroundColor":msg?"green":"red"}}></div></td> )
-                            : (<td key={index} >{ msg }</td> )
+                          
+                        { Object.keys(this.state.tableDatas[key]["datas"][data]).map((msg, index) => 
+                            typeof(this.state.tableDatas[key]["datas"][data][msg]) == 'boolean' 
+                            ? (<td key={index} ><div style={{"height":"15px","width":"15px","borderRadius":"50%","backgroundColor":this.state.tableDatas[key]["datas"][data][msg]?"green":"red"}}></div></td> )
+                            : (<td key={index} >{ typeof(this.state.tableDatas[key]["datas"][data][msg]) =='string' ? this.state.tableDatas[key]["datas"][data][msg] :(parseFloat(this.state.tableDatas[key]["datas"][data][msg])).toFixed(2) }</td> )
                         )}
                         </tr>
                       )}

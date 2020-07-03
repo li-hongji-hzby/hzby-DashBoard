@@ -167,6 +167,7 @@ export class index extends Component {
     let newCardData = JSON.parse(JSON.stringify(this.state.cardDatas))
     Object.keys(newCardData).map( e => {
       newCardData[e]['summary'] = res[newCardData[e]['kind']]
+      return null
     })
     this.setState({
       cardDatas:newCardData
@@ -209,7 +210,7 @@ export class index extends Component {
     for(let i in newTableDatas['datas']){
       switch(kind){
         case "日":
-          newTableDatas['datas'][i]['electricity'] = newTableDatas['datas'][i]['electricity']
+          newTableDatas['datas'][i]['electricity'] = newTableDatas['datas'][i]['electricity'] * 1
           newTableDatas['datas'][i]['air'] = newTableDatas['datas'][i]['air']*60
           break;
         case "月":
@@ -220,6 +221,9 @@ export class index extends Component {
           newTableDatas['datas'][i]['electricity'] = newTableDatas['datas'][i]['electricity']*30*24
           newTableDatas['datas'][i]['air'] = newTableDatas['datas'][i]['air']*60*24*30
           break;
+        default:
+          newTableDatas['datas'][i]['electricity'] = newTableDatas['datas'][i]['electricity']*24
+          newTableDatas['datas'][i]['air'] = newTableDatas['datas'][i]['air']*60*24
       }
     }
     _that.setState({
@@ -249,14 +253,14 @@ export class index extends Component {
     for(let i in this.state.tableDatas.datas){
       datas.push(this.state.tableDatas.datas[i][dataKind])
       labels.push(this.state.tableDatas.datas[i]['timestamp']*1000)
-      console.log(this.state.tableDatas.datas[i]['timestamp'])
+      // console.log(this.state.tableDatas.datas[i]['timestamp'])
     }
     console.log(this.state.tableDatas.datas)
     let newMainSeries = JSON.parse(JSON.stringify(this.state.mainSeries))
     newMainSeries[0]['data'] = datas
     let newMainOptions = JSON.parse(JSON.stringify(this.state.mainOptions))
     newMainOptions['xaxis']['categories'] = labels
-    console.log(labels)
+    // console.log(labels)
     this.setState({
       mainSeries:newMainSeries,
       mainOptions:newMainOptions,
