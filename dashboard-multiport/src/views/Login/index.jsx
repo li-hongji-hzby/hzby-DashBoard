@@ -45,6 +45,7 @@ export default class index extends Component {
       return {}
     })
     let msg = JSON.parse(resMsg['msg'])
+    console.log(msg['jwt'])
     cookie.remove("userMsg",{ path: '/' })
     cookie.remove("user",{ path: '/' })
     cookie.remove("project",{ path: '/' })

@@ -100,6 +100,7 @@ export class index extends Component {
 
   // 查询数据
   getMachineData =async () => {
+    console.log(cookie.load('userMsg'));
     let machineName =this.state.machineName
     let resData = await Axios.post("/History/getHistory", {
       startTime:parseInt(Date.parse(this.state.startTime)/1000),

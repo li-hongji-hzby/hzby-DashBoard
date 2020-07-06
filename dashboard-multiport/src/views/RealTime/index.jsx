@@ -73,6 +73,7 @@ export class index extends Component {
       tableDatas:tableDatas
     })
     this.getTableDatas(tableMsg)
+    this.getSummary()
     this.intervalId = setInterval(() => {
       this.getSummary()
       this.getTableDatas(tableMsg)
@@ -91,8 +92,6 @@ export class index extends Component {
       tableMsg:tableMsg,
       project:cookie.load('project')
     }).then(res =>{
-      console.log("====================")
-      console.log(res.data)
       return res.data
     }).catch(err => {
       console.log(err)
@@ -120,6 +119,7 @@ export class index extends Component {
     let result = await Axios.post("/RealTime/getRealtimeSummary",{
       project:cookie.load('project')
     }).then(res =>{
+      console.log(res.data)
       return res.data
     }).catch(err => {
       console.log(err)

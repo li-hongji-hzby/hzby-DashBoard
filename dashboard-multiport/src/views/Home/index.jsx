@@ -201,6 +201,7 @@ export class index extends Component {
     }).then(res =>{
       return res.data
     }).catch(err => {
+      console.log(cookie.load('userMsg'));
       console.log(err);
       this.props.history.push('/Login')
       return []
