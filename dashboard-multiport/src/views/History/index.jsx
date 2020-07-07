@@ -36,6 +36,7 @@ const chartOptions = {
     text: '',
     align: 'left',
     style: {
+      color: "#c5c5c5",
       fontSize: '14px'
     }
   },
@@ -48,11 +49,24 @@ const chartOptions = {
   },
   xaxis: {
     type: 'datetime',
+    labels:{
+      datetimeUTC: false,
+      style: {
+        colors: "#c5c5c5",
+        fontSize: '14px',
+      },
+    },
     categories: []
   },
-  yaxis: {
+  yaxis: { 
     borderColor: 'rgba(255,255,255,0.1)',
     show: true,
+    labels:{
+      style: {
+        colors: "#c5c5c5",
+        fontSize: '14px',
+      },
+    }
   },
   tooltip: {
     x: {

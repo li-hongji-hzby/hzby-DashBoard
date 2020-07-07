@@ -73,7 +73,7 @@ export class index extends Component {
           labels:{
             datetimeUTC: false,
             style: {
-              colors: "white",
+              colors: "#c5c5c5",
               fontSize: '14px',
             },
           },
@@ -84,7 +84,7 @@ export class index extends Component {
           show: true,
           labels:{
             style: {
-              colors: "white",
+              colors: "#c5c5c5",
               fontSize: '14px',
             },
           }
