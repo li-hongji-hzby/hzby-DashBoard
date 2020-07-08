@@ -3,6 +3,8 @@ import { Col, Row, Container, Card, Badge, Table } from 'react-bootstrap'
 import Axios from 'axios';
 import cookie from 'react-cookies';
 
+import GlobalModal from '../../component/GlobalModal'
+
 import style from './style.module.css'
 
 const bgColors = [ "#352B9B","#448BCD","#DF9B28","#C65757",]
@@ -50,7 +52,6 @@ export class index extends Component {
     let tableMsg = {}
     let realPage = JSON.parse(localStorage.getItem("realtimePage"))
     let tableDatas = JSON.parse(JSON.stringify(this.state.tableDatas))
-    console.log(realPage)
     for(let i in realPage){
       tableMsg[i]={}
       tableMsg[i]["attributes"]={}
@@ -58,7 +59,6 @@ export class index extends Component {
       tableDatas[i] = {}
       tableDatas[i]["labels"] = ["机器","状态"]
       JSON.parse(realPage[i][0]['attributeList']).map(e => {
-        console.log(e)
         tableMsg[i]["attributes"][e["attributeNameCn"]]=e["attributeNameEn"]
         tableDatas[i]["labels"].push(e["attributeNameCn"])
         return 0
@@ -87,52 +87,54 @@ export class index extends Component {
   }
 
   getTableDatas = async ( tableMsg ) => {
-    console.log(tableMsg)
-    let result = await Axios.post("/RealTime/listRealTimeDatasCache",{
+    Axios.post("/RealTime/listRealTimeDatasCache",{
       tableMsg:tableMsg,
       project:cookie.load('project')
     }).then(res =>{
-      return res.data
+      let newData = JSON.parse(JSON.stringify(this.state.tableDatas))
+      let result = res.data
+      Object.keys(result).map( e => {
+        newData[e]["datas"]=[]
+        for(let item in result[e]){
+          let getDataArr = []
+          Object.values(result[e][item]).map( e => getDataArr.push(e))
+          newData[e]["datas"].push(getDataArr)
+        }
+        return {}
+      })
+      this.setState({
+        tableDatas:newData
+      })
+      return {}
     }).catch(err => {
       console.log(err)
-      this.props.history.push('/Login')
+      // let toLogin = ()=>{this.props.history.push('/Login')}
+      // GlobalModal.alert({ contentText: '请重新登录', onOk(){toLogin()}})
       return {}
-    })
-    console.log(result)
-    let newData = JSON.parse(JSON.stringify(this.state.tableDatas))
-    Object.keys(result).map( e => {
-      newData[e]["datas"]=[]
-      for(let item in result[e]){
-        let getDataArr = []
-        Object.values(result[e][item]).map( e => getDataArr.push(e))
-        newData[e]["datas"].push(getDataArr)
-      }
-      return 0
-    })
-    this.setState({
-      tableDatas:newData
     })
     // console.log(newData)
   }
 
   getSummary = async () => {
-    let result = await Axios.post("/RealTime/getRealtimeSummary",{
+    Axios.post("/RealTime/getRealtimeSummary",{
       project:cookie.load('project')
     }).then(res =>{
-      console.log(res.data)
-      return res.data
+      let result = res.data
+      let newMainDatas = JSON.parse(JSON.stringify(this.state.mainDatas))
+      Object.keys(result).map( e => {
+        newMainDatas[e]["data"] = result[e]
+        return {}
+      })
+      this.setState({
+        mainDatas:newMainDatas
+      })
+      return {}
     }).catch(err => {
       console.log(err)
-      this.props.history.push('/Login')
+      // this.props.history.push('/Login')
+      // let toLogin = ()=>{this.props.history.push('/Login')}
+      // GlobalModal.alert({ contentText: '请重新登录', onOk(){toLogin()}})
       return {}
-    })
-    let newMainDatas = JSON.parse(JSON.stringify(this.state.mainDatas))
-    Object.keys(result).map( e => {
-      newMainDatas[e]["data"] = result[e]
-      return null
-    })
-    this.setState({
-      mainDatas:newMainDatas
     })
     
   }

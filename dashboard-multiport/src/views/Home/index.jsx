@@ -73,7 +73,7 @@ export class index extends Component {
           labels:{
             datetimeUTC: false,
             style: {
-              colors: "#c5c5c5",
+              colors: "white",
               fontSize: '14px',
             },
           },
@@ -84,7 +84,7 @@ export class index extends Component {
           show: true,
           labels:{
             style: {
-              colors: "#c5c5c5",
+              colors: "white",
               fontSize: '14px',
             },
           }
@@ -153,7 +153,7 @@ export class index extends Component {
       })
     }).catch(err => {
       console.log(err);
-      this.props.history.push('/Login')
+      // this.props.history.push('/Login')
     })
   }
 
@@ -203,7 +203,7 @@ export class index extends Component {
     }).catch(err => {
       console.log(cookie.load('userMsg'));
       console.log(err);
-      this.props.history.push('/Login')
+      // this.props.history.push('/Login')
       return []
     })
     let newTableDatas = this.state.tableDatas
@@ -256,7 +256,6 @@ export class index extends Component {
       labels.push(this.state.tableDatas.datas[i]['timestamp']*1000)
       // console.log(this.state.tableDatas.datas[i]['timestamp'])
     }
-    console.log(this.state.tableDatas.datas)
     let newMainSeries = JSON.parse(JSON.stringify(this.state.mainSeries))
     newMainSeries[0]['data'] = datas
     let newMainOptions = JSON.parse(JSON.stringify(this.state.mainOptions))
@@ -268,7 +267,6 @@ export class index extends Component {
       kind:kind,
       labelColor:color
     })
-    console.log(newMainOptions['xaxis']['categories'])
   }
   changeTime = (range,format) => {
     this.getMainDatas(range).then(()=>{

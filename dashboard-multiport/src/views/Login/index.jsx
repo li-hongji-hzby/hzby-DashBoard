@@ -4,10 +4,12 @@ import axios from 'axios';
 import { Image, Form } from 'react-bootstrap'
 
 import style from './style.module.css';
+import Toast from '../../component/GlobalToast'
 
 import logo from './images/logo.png'
 import userIcon from './images/userIcon.png'
 import pwdIcon from './images/pwdIcon.png'
+
 
 
 
@@ -33,31 +35,31 @@ export default class index extends Component {
     })
   }
   Login = async () => {
-    let resMsg = await axios.post('/user/login', {
+    axios.post('/user/login', {
       username : this.state.username,
       password : this.state.password
     })
-    .then(function (response) {
-      return response.data
-    })
-    .catch(function (error) {
-      console.log(error);
+    .then(response => {
+      cookie.remove("userMsg",{ path: '/' })
+      cookie.remove("user",{ path: '/' })
+      cookie.remove("project",{ path: '/' })
+      localStorage.clear();
+      let msg = JSON.parse(response.data['msg'])
+      cookie.save("userMsg", msg['jwt'],{maxAge: 1000*60*2880})
+      cookie.save("user", msg['user'],{maxAge: 1000*60*2880})
+      cookie.save("project", msg['project'],{maxAge: 1000*60*2880})
+      window.localStorage.setItem("realtimePage",JSON.stringify(msg['pageConfig']['realtimePage']));
+      window.localStorage.setItem("historyPage",JSON.stringify(msg['pageConfig']['historyPage']));
+      Toast.success("登录成功")
+      this.props.history.push('/Home')
       return {}
     })
-    let msg = JSON.parse(resMsg['msg'])
-    console.log(msg['jwt'])
-    cookie.remove("userMsg",{ path: '/' })
-    cookie.remove("user",{ path: '/' })
-    cookie.remove("project",{ path: '/' })
-    localStorage.clear();
-    cookie.save("userMsg", msg['jwt'],{maxAge: 1000*60*2880})
-    cookie.save("user", msg['user'],{maxAge: 1000*60*2880})
-    cookie.save("project", msg['project'],{maxAge: 1000*60*2880})
-    window.localStorage.setItem("realtimePage",JSON.stringify(msg['pageConfig']['realtimePage']));
-    window.localStorage.setItem("historyPage",JSON.stringify(msg['pageConfig']['historyPage']));
+    .catch( error => {
+      Toast.error(error.response.data.msg)
+      return {}
+    })
     // cookie.save("realtimePage", msg['pageConfig']['realtimePage'],{maxAge: 1000*60*2880})
     // cookie.save("historyPage", msg['pageConfig']['historyPage'],{maxAge: 1000*60*2880})
-    this.props.history.push('/Home')
     
   }
 

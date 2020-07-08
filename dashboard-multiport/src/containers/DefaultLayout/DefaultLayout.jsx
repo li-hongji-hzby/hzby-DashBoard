@@ -12,6 +12,8 @@ import routers from '../../router'
 import more from './more.png'
 import hide from './hide.png'
 
+import Toast from '../../component/GlobalToast'
+
 const DefaultHeader = React.lazy(() => import('./DefaultHeader'));
 const DefaultFooter = React.lazy(() => import('./DefaultFooter'));
 const DefaultMobileFooter = React.lazy(() => import('./DefaultMobileFooter'));
@@ -70,6 +72,7 @@ class DefaultLayout extends Component {
         this.setState({
             user:undefined,
         })
+        Toast.warning("退出登录")
         this.props.history.push('/Login')
         // console.log(cookie.load('user'))
     }

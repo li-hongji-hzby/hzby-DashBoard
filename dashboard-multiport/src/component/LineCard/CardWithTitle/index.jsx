@@ -81,7 +81,7 @@ class index extends Component {
     return (
         <Card className={style.cardBox} style={{"backgroundColor": this.props.bgColor}}>
           <Card.Header className="d-flex justify-content-center align-items-center" >
-            {this.state.kind}
+            {this.state.kind+"(最近一小时)"}
           </Card.Header>
           <Card.Body style={{"position":"relative"}}>
               <Chart options={this.state.options} series={this.state.series} type="line" height={this.state.clientHeight *0.15}></Chart>
