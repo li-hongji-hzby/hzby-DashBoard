@@ -258,7 +258,7 @@ export class index extends Component {
             <Card.Header className="d-flex justify-content-start align-items-center self-card-header">
               <Badge className="p-2 h-100 d-flex justify-content-center align-items-center" variant="primary">
                 <Image src={machinesImg} className={style.cardIcon}></Image>
-                参数列表
+                属性列表
               </Badge>
             </Card.Header>
             <Card.Body className=" self-card-content">

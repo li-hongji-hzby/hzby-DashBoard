@@ -3,7 +3,7 @@ import { Component } from "react";
 
 import Toast from './component/GlobalToast'
 
-let base = "http://localhost:8080";
+let base = "http://139.196.28.123/API";
 // http://139.196.28.123/API
 // http://localhost:8080
 
@@ -11,7 +11,7 @@ axios.defaults.withCredentials = true; // 携带cookie
 // 请求前拦截
 axios.interceptors.request.use(
   config => {
-    console.log(config)
+    // console.log(config)
     config['url'] = base + config['url']
     return config;
   },
