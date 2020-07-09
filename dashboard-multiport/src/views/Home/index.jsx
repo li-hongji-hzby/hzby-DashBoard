@@ -161,7 +161,6 @@ export class index extends Component {
     let res = await Axios.post("/Home/getSummaryData",{
       project:cookie.load('project')
     }).then(res => {
-      console.log(res.data)
       return res.data
     })
     let newCardData = JSON.parse(JSON.stringify(this.state.cardDatas))

@@ -53,9 +53,8 @@ export default class index extends Component {
       Toast.success("登录成功")
       this.props.history.push('/Home')
       return {}
-    })
-    .catch( error => {
-      Toast.error(error.response.data.msg)
+    }).catch( error => {
+      // console.log(error)
       return {}
     })
     // cookie.save("realtimePage", msg['pageConfig']['realtimePage'],{maxAge: 1000*60*2880})

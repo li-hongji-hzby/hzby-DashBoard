@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Component } from "react";
 
+import Toast from './component/GlobalToast'
 
 let base = "http://localhost:8080";
 // http://139.196.28.123/API
@@ -10,7 +11,7 @@ axios.defaults.withCredentials = true; // 携带cookie
 // 请求前拦截
 axios.interceptors.request.use(
   config => {
-    // console.log(config)
+    console.log(config)
     config['url'] = base + config['url']
     return config;
   },
@@ -36,6 +37,10 @@ axios.interceptors.response.use(
         break
       case 401:
         console.log("登录信息失效 ⊙﹏⊙∥");
+        break
+      case 409:
+        console.log("登录失败 ⊙﹏⊙∥");
+        Toast.error(err.response.data.msg)
         break
       case 500:
         console.log("服务器开小差了 ⊙﹏⊙∥");

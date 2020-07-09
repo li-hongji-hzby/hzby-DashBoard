@@ -13,7 +13,6 @@ export class index extends Component {
           <img src={brand} style={{"width":"80%"}} alt=""/>
         </div>
         <Col className={style.footerBox + " h-56 d-flex justify-content-start align-items-center pt-2 pb-2 pl-3 pr-3 self-border-top-dark"}>
-          涵智博雅 © 2020 creativeLabs.
         </Col>
       </Row>
     )

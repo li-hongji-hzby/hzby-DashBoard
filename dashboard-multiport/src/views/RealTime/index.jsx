@@ -3,8 +3,6 @@ import { Col, Row, Container, Card, Badge, Table } from 'react-bootstrap'
 import Axios from 'axios';
 import cookie from 'react-cookies';
 
-import GlobalModal from '../../component/GlobalModal'
-
 import style from './style.module.css'
 
 const bgColors = [ "#352B9B","#448BCD","#DF9B28","#C65757",]
