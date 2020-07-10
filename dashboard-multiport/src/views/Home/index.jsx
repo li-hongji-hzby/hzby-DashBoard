@@ -115,6 +115,7 @@ export class index extends Component {
       this.getWeekDatas()
     }, 5*1000);
     this.getSummaryData()
+    console.log("首页渲染")
   }
 
   componentWillUnmount(){

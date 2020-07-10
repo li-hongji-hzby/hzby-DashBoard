@@ -50,6 +50,7 @@ export default class index extends Component {
       cookie.save("project", msg['project'],{maxAge: 1000*60*2880})
       window.localStorage.setItem("realtimePage",JSON.stringify(msg['pageConfig']['realtimePage']));
       window.localStorage.setItem("historyPage",JSON.stringify(msg['pageConfig']['historyPage']));
+      window.localStorage.setItem("allProject",JSON.stringify(msg['allProject']));
       Toast.success("登录成功")
       this.props.history.push('/Home')
       return {}

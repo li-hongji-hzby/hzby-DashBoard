@@ -40,6 +40,7 @@ class DefaultLayout extends Component {
             visible:true,
             mobileVisible:false,
             user:cookie.load('user'),
+            renderStatus:false
         }
     }
 
@@ -65,9 +66,6 @@ class DefaultLayout extends Component {
 
 
     logout = () => {
-        // cookie.remove("userMsg",{ path: '/' })
-        // cookie.remove("user",{ path: '/' })
-        // 
         localStorage.clear();
         this.setState({
             user:undefined,
@@ -77,11 +75,16 @@ class DefaultLayout extends Component {
         // console.log(cookie.load('user'))
     }
 
+    reRenderMainContent = () => {
+        this.props.history.push('/').then(() => this.props.history.push('/Home'))
+    }
+
     render() {
         return (
             <Container className={style.appContainer + " element"} fluid >
                 <Suspense fallback={this.loading()}>
-                    <DefaultHeader user={this.state.user} logout={() => this.logout()} sideBarVisible={() => {this.sideBarEnable()}} mobileSideBarVisible={() => this.mobileSideBarEnable()}></DefaultHeader>
+                    <DefaultHeader user={this.state.user} logout={() => this.logout()} reRenderMainContent={() => this.reRenderMainContent()}
+                                sideBarVisible={() => {this.sideBarEnable()}} mobileSideBarVisible={() => this.mobileSideBarEnable()}></DefaultHeader>
                 </Suspense>
                 <div className={style.appBody + " d-flex justify-content-center p-0 w-100"}>
                     <div className={`${style.appSidebar} brank-black w-256 self-border-right-dark  ${this.state.visible?"d-block":"d-none"}`}>
@@ -91,7 +94,7 @@ class DefaultLayout extends Component {
                             )}
                         </Suspense>
                     </div>
-                    <div className={`${style.mobileAppSidebar} brank-black w-256 self-border-right-dark  ${this.state.mobileVisible?"d-block":""}`}>
+                    <div className={`${style.mobileAppSidebar} brank-black w-256 self-border-right-dark  ${this.state.mobileVisible?"d-block":""}`} >
                         <Suspense fallback={this.loading()}>
                             { _nav.map((key, index) =>
                                 <SideBarItem key={index} menuData={key}></SideBarItem>
@@ -116,7 +119,7 @@ class DefaultLayout extends Component {
                                             exact={route.exact}
                                             name={route.name}
                                             render={props => (
-                                            <route.component {...props} />
+                                            <route.component renderStatus={this.state.renderStatus} {...props}  />
                                             )} />
                                         ) : (null);
                                     })}
