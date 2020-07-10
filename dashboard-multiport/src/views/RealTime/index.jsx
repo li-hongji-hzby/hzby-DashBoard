@@ -23,11 +23,11 @@ export class index extends Component {
         },
         "功率":{
           "data":"",
-          "unit":"kw"
+          "unit":"kW"
         },
         "压力":{
           "data":"",
-          "unit":"Mpa"
+          "unit":"bar"
         },
         "单耗":{
           "data":"",
