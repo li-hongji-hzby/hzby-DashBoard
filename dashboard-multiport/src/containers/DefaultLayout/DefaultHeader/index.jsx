@@ -45,11 +45,16 @@ class index extends Component {
   }
 
   componentDidMount(){
-    console.log(cookie.load('project'))
-    this.setState({
-      projectName:cookie.load('project')['projectNameZh'],
-      projectMap:JSON.parse(localStorage.getItem("allProject"))
-    })
+    // console.log(cookie.load('project'))
+    try{
+      this.setState({
+        projectName:cookie.load('project')['projectNameZh'],
+        projectMap:JSON.parse(localStorage.getItem("allProject"))
+      })
+    }catch{
+      Toast.loading("用户数据异常，请重新登录", 1000)
+      window.location.href.replace("/Login")
+    }
     
   }
 

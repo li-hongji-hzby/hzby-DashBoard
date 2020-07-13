@@ -168,6 +168,7 @@ export class index extends Component {
       downsample:this.state.downsample +'-avg',
       metric:metric
     }).then(res =>{
+      console.log(res.data)
       return res.data
     }).catch(err => {
       console.log(err);
