@@ -3,7 +3,7 @@ import { Component } from "react";
 
 import Toast from './component/GlobalToast'
 
-let base = "http://localhost:8080";
+let base = "http://139.196.28.123/API";
 // http://139.196.28.123/API
 // http://localhost:8080
 
