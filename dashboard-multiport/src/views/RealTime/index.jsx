@@ -148,7 +148,7 @@ export class index extends Component {
                   <h2>{key}</h2>
                 </Card.Header>
                 <Card.Body className="self-card-content d-flex justify-content-center align-items-center" style={{ "position": "relative" }}>
-                  <h2>{ (parseFloat(this.state.mainDatas[key]['data'])).toFixed(2) }</h2>
+                  <h2>{ this.state.mainDatas[key]['data']}</h2>
                   <h3 style={{"padding":"5px"}}>{this.state.mainDatas[key]['unit']}</h3>
                 </Card.Body>
               </Card>

@@ -13,7 +13,7 @@ import rightArrow from './images/right-arrow.png'
 import style from './style.module.css'
 
 // 半天内降采样
-const downSampleList1=[["10秒","10s"],["1分钟","1m"],["5分钟","5m"],["30分钟","30m"],["1小时","1h"]]
+const downSampleList1=[["1分钟","1m"],["5分钟","5m"],["30分钟","30m"],["1小时","1h"]]
 // 七天内降采样
 const downSampleList2 = [["5分钟","5m"],["30分钟","30m"],["1小时","1h"],["6小时","6h"],["1天","1d"]]
 // 一个月内降采样
@@ -93,8 +93,8 @@ export class index extends Component {
       startTime:new Date(new Date().getTime() - 12*60*60*1000),
       endTime:new Date(),
       attributeList:[],
-      downsample:'10s',
-      downsampleZh:'10秒',
+      downsample:'1m',
+      downsampleZh:'1分钟',
       device:'',
       chartDatas:[],
       downsampleList:[]
